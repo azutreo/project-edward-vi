@@ -9,7 +9,7 @@ project "Engine"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On"
+	staticruntime "on"
 	
 	targetdir ("%{prj.location}/bin/%{outputDir}")
 	objdir ("%{prj.location}/bin-int/%{outputDir}")
@@ -47,15 +47,15 @@ project "Engine"
 		
 	filter "configurations:Development"
 		defines "ENGINE_CONFIGURATION_DEVELOPMENT"
-		symbols "On"
+		symbols "on"
 		runtime "Debug"
 	
 	filter "configurations:Testing"
 		defines "ENGINE_CONFIGURATION_TESTING"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 	
 	filter "configurations:Production"
 		defines "ENGINE_CONFIGURATION_PRODUCTION"
-		optimize "On"
+		optimize "on"
 		runtime "Release"

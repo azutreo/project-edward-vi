@@ -3,7 +3,7 @@ project "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On"
+	staticruntime "on"
 	
 	targetdir ("%{prj.location}/bin/%{outputDir}")
 	objdir ("%{prj.location}/bin-int/%{outputDir}")
@@ -19,15 +19,15 @@ project "Sandbox"
 	includedirs {
 		"%{prj.location}/source",
 		"%{wks.location}/engine/source",
-		"%{prj.location}/dependencies/glfw/include",
-		"%{prj.location}/dependencies/glad/include"
+		--"%{prj.location}/dependencies/glfw/include",
+		--"%{prj.location}/dependencies/glad/include"
 	}
 	
 	links {
 		"Engine",
-		"GLFW",
+		--[["GLFW",
 		"Glad",
-		"opengl32.lib",
+		"opengl32.lib",]]
 	}
 
 	filter "system:windows"
@@ -39,15 +39,15 @@ project "Sandbox"
 	
 	filter "configurations:Development"
 		defines "CONFIGURATION_DEVELOPMENT"
-		symbols "On"
+		symbols "on"
 		runtime "Debug"
 	
 	filter "configurations:Testing"
 		defines "CONFIGURATION_TESTING"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 	
 	filter "configurations:Production"
 		defines "CONFIGURATION_PRODUCTION"
-		optimize "On"
+		optimize "on"
 		runtime "Release"

@@ -17,13 +17,13 @@ project "Glad"
 	}
 	
 	filter "configurations:Development"
-		symbols "On"
+		symbols "on"
 		runtime "Debug"
 	
 	filter "configurations:Testing"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 	
 	filter "configurations:Production"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
