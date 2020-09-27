@@ -1,5 +1,6 @@
 *.sln
-*.vcxproj.*
+*.vcxproj
+*.vcxproj.filters
 
 # Compiled source #
 ###################
