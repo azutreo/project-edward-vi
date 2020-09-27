@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
 
 	Engine::Application* application = new Engine::Application();
 
-	application->Updated.Connect([&](double deltaTime) {
+	/*application->Updated.Connect([&](double deltaTime) {
 		double yVelocity = velocity.GetY() + (GRAVITY * deltaTime);
 		velocity.SetY(yVelocity);
 
@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
 		printf("p(%i, %i)\n", (int)position.GetX(), (int)position.GetY());
 
 		return false;
-	});
+	});*/
 
 	application->Run();
 

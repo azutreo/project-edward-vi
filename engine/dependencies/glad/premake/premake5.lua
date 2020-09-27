@@ -3,8 +3,8 @@ project "Glad"
 	kind "StaticLib"
 	language "C"
 	
-	targetdir ("%{prj.location}/bin/%{outputDir}")
-	objdir ("%{prj.location}/bin-int/%{outputDir}")
+	targetdir "%{binDir}"
+	objdir "%{binIntDir}"
 	
 	files {
 		"%{prj.location}/include/glad/glad.h",
@@ -17,13 +17,13 @@ project "Glad"
 	}
 	
 	filter "configurations:Development"
-		symbols "On"
+		symbols "on"
 		runtime "Debug"
 	
 	filter "configurations:Testing"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 	
 	filter "configurations:Production"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
