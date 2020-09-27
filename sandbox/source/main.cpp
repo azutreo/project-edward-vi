@@ -1,17 +1,33 @@
 #pragma once
 #include "precompiled/precompiled.hpp"
 
-#include "mathematics/vectors/vector3.hpp"
+#include "mathematics/vectors/vector2.hpp"
 #include "application/application.hpp"
 
+double GRAVITY = -9.8;
+
 int main(int argc, char** argv) {
-	/*Engine::Mathematics::Vector3 vector1(1, 2, 3);
-	Engine::Mathematics::Vector3 vector2(1, 2, 3);
+	Engine::Mathematics::Vector2 position(0, 0);
+	Engine::Mathematics::Vector2 velocity(10, 100);
 
-	vector1 = vector1.Add(vector2);
-	std::cout << vector1 << std::endl;*/
+	Engine::Application* application = new Engine::Application();
 
-	Engine::Application::Run();
+	application->Updated.Connect([&](double deltaTime) {
+		double yVelocity = velocity.GetY() + (GRAVITY * deltaTime);
+		velocity.SetY(yVelocity);
 
+		double xPosition = position.GetX() + (velocity.GetX() * deltaTime);
+		double yPosition = position.GetY() + (velocity.GetY() * deltaTime);
+		position.SetX(xPosition);
+		position.SetY(yPosition);
+
+		printf("p(%i, %i)\n", (int)position.GetX(), (int)position.GetY());
+
+		return false;
+	});
+
+	application->Run();
+
+	delete application;
 	return 0;
 }
