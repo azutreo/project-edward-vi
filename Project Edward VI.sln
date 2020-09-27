@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 16
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "sandbox\Sandbox.vcxproj", "{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{7CAF2816-E864-A10B-7159-9BE2DD0D980F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Premake", "build\premake\Premake.vcxproj", "{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "engine\dependencies\glfw\GLFW.vcxproj", "{154B857C-0182-860D-AA6E-6C109684020F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "engine\Engine.vcxproj", "{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|x64 = Development|x64
+		Production|x64 = Production|x64
+		Testing|x64 = Testing|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Development|x64.ActiveCfg = Development|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Development|x64.Build.0 = Development|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Production|x64.ActiveCfg = Production|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Production|x64.Build.0 = Production|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Testing|x64.ActiveCfg = Testing|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Testing|x64.Build.0 = Testing|x64
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}.Development|x64.ActiveCfg = Development|x64
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}.Development|x64.Build.0 = Development|x64
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}.Production|x64.ActiveCfg = Production|x64
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}.Production|x64.Build.0 = Production|x64
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}.Testing|x64.ActiveCfg = Testing|x64
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520}.Testing|x64.Build.0 = Testing|x64
+		{154B857C-0182-860D-AA6E-6C109684020F}.Development|x64.ActiveCfg = Development|x64
+		{154B857C-0182-860D-AA6E-6C109684020F}.Development|x64.Build.0 = Development|x64
+		{154B857C-0182-860D-AA6E-6C109684020F}.Production|x64.ActiveCfg = Production|x64
+		{154B857C-0182-860D-AA6E-6C109684020F}.Production|x64.Build.0 = Production|x64
+		{154B857C-0182-860D-AA6E-6C109684020F}.Testing|x64.ActiveCfg = Testing|x64
+		{154B857C-0182-860D-AA6E-6C109684020F}.Testing|x64.Build.0 = Testing|x64
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Development|x64.ActiveCfg = Development|x64
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Development|x64.Build.0 = Development|x64
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Production|x64.ActiveCfg = Production|x64
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Production|x64.Build.0 = Production|x64
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Testing|x64.ActiveCfg = Testing|x64
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Testing|x64.Build.0 = Testing|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6ACC3F23-D6AB-BEBE-DFC3-49954B222520} = {7CAF2816-E864-A10B-7159-9BE2DD0D980F}
+		{154B857C-0182-860D-AA6E-6C109684020F} = {53E47842-3FC8-3998-A828-34EB942B241A}
+	EndGlobalSection
+EndGlobal
