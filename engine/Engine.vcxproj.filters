@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="engine_precompiled">
+      <UniqueIdentifier>{4EF2D117-3AD6-926D-A336-8DC08F397DEF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mathematics">
+      <UniqueIdentifier>{55971E63-C14C-9758-4A41-912FB6F58D5C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mathematics\vectors">
+      <UniqueIdentifier>{4A375F83-B698-3C91-3F06-8343AB667350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="windows">
+      <UniqueIdentifier>{70CAFEC8-DCA9-7D64-E5C1-083B5120E4C5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\engine_precompiled\engine_precompiled.hpp">
+      <Filter>engine_precompiled</Filter>
+    </ClInclude>
+    <ClInclude Include="source\mathematics\vectors\vector2.hpp">
+      <Filter>mathematics\vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="source\mathematics\vectors\vector3.hpp">
+      <Filter>mathematics\vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="source\mathematics\vectors\vector4.hpp">
+      <Filter>mathematics\vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\window.hpp">
+      <Filter>windows</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\window_opengl.hpp">
+      <Filter>windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\engine_precompiled\engine_precompiled.cpp">
+      <Filter>engine_precompiled</Filter>
+    </ClCompile>
+    <ClCompile Include="source\mathematics\vectors\vector2.cpp">
+      <Filter>mathematics\vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\mathematics\vectors\vector3.cpp">
+      <Filter>mathematics\vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\mathematics\vectors\vector4.cpp">
+      <Filter>mathematics\vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\windows\window_opengl.cpp">
+      <Filter>windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

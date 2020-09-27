@@ -1,5 +1,5 @@
 *.sln
-*.vcxproj
+*.vcxproj.*
 
 # Compiled source #
 ###################

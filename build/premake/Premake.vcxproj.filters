@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{61705900-4DFC-870B-B6AA-880BA255880B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine">
+      <UniqueIdentifier>{E617D869-5282-8CE0-9BC0-3D86076A6A35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine\dependencies">
+      <UniqueIdentifier>{5CE5283C-48DF-518E-314C-E89E1DE5B7FA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine\dependencies\glad">
+      <UniqueIdentifier>{E371A71C-4F7F-D502-D865-D1ED4472A1B9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine\dependencies\glad\premake">
+      <UniqueIdentifier>{5781BE2A-C33A-29D5-4C9A-43AFB852DF44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine\dependencies\glfw">
+      <UniqueIdentifier>{9B72A71C-0780-D502-9066-D1EDFC72A1B9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine\dependencies\glfw\premake">
+      <UniqueIdentifier>{0FBA2FE4-7B73-9A8E-04D3-B468708B50FE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\engine\premake">
+      <UniqueIdentifier>{5A7AAAB6-C690-A84C-0F08-346E7B5D79D4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\sandbox">
+      <UniqueIdentifier>{5F13B3BC-4BCB-F409-B4D2-CD65A0A98FFA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\sandbox\premake">
+      <UniqueIdentifier>{D3DE2155-BFC2-E2AA-2823-DDFD1426CD2C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\engine\dependencies\glad\premake\premake5.lua">
+      <Filter>..\engine\dependencies\glad\premake</Filter>
+    </None>
+    <None Include="..\..\engine\dependencies\glfw\premake\premake5.lua">
+      <Filter>..\engine\dependencies\glfw\premake</Filter>
+    </None>
+    <None Include="..\..\engine\premake\premake5.lua">
+      <Filter>..\engine\premake</Filter>
+    </None>
+    <None Include="..\..\sandbox\premake\premake5.lua">
+      <Filter>..\sandbox\premake</Filter>
+    </None>
+    <None Include="premake5.lua" />
+  </ItemGroup>
+</Project>
