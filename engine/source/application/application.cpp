@@ -1,15 +1,11 @@
 #pragma once
 #include "engine_precompiled/engine_precompiled.hpp"
-
 #include "application/application.hpp"
-
-#include "windows/window_opengl.hpp"
-#include "events/event_application_updated.hpp"
 
 namespace Engine {
 
 	Application::Application() {
-		mWindow = new Engine::Windows::OpenGlWindow();
+		mWindow = new Engine::Renderer::OpenGlWindow();
 
 		mWindow->SetWindowClosedCallback([&]() {
 			mRunning = false;

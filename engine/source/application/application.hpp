@@ -1,14 +1,14 @@
 #pragma once
 
-#include <thread>
-
-#include "windows/window_opengl.hpp"
+#include "rendering/opengl/window_opengl.hpp"
 #include "events/event_application_updated.hpp"
+
+#include <thread>
 
 namespace Engine {
 
 	class Application {
-		Windows::OpenGlWindow* mWindow;
+		Renderer::OpenGlWindow* mWindow;
 
 		bool mRunning = true;
 		std::chrono::steady_clock::time_point mRunningTime = std::chrono::high_resolution_clock::now();

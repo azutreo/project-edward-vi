@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace Engine::Windows {
+namespace Engine::Renderer {
 
 	struct WindowProperties {
 		std::string title = "";
