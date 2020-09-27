@@ -19,12 +19,15 @@ project "Sandbox"
 	includedirs {
 		"%{prj.location}/source",
 		"%{wks.location}/engine/source",
-		"%{wks.location}/engine/dependencies/glfw/include"
+		"%{prj.location}/dependencies/glfw/include",
+		"%{prj.location}/dependencies/glad/include"
 	}
 	
 	links {
+		"Engine",
 		"GLFW",
-		"Engine"
+		"Glad",
+		"opengl32.lib",
 	}
 
 	filter "system:windows"

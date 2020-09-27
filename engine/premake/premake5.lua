@@ -1,5 +1,6 @@
 group "Dependencies"
 include "../../engine/dependencies/glfw/premake"
+include "../../engine/dependencies/glad/premake"
 
 group ""
 
@@ -23,11 +24,14 @@ project "Engine"
 	
 	includedirs {
 		"%{prj.location}/source",
-		"%{prj.location}/dependencies/glfw/include"
+		"%{prj.location}/dependencies/glfw/include",
+		"%{prj.location}/dependencies/glad/include"
 	}
 	
 	links {
 		"GLFW",
+		"Glad",
+		"opengl32.lib",
 	}
 
 	filter "system:windows"
