@@ -2,6 +2,8 @@
 #include "engine_precompiled/engine_precompiled.hpp"
 
 #include "windows/window_opengl.hpp"
+
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
 namespace Engine::Windows {
@@ -31,8 +33,66 @@ namespace Engine::Windows {
 
 		mWindow = glfwCreateWindow((int)mWindowData.width, (int)mWindowData.height, mWindowData.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(mWindow);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
 		glfwSetWindowUserPointer(mWindow, &mWindowData);
 		SetVSync(true);
+
+		glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
+			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+
+			windowData.windowClosedCallback();
+		});
+
+		glfwSetWindowSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
+			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+
+			windowData.width = width;
+			windowData.height = height;
+			windowData.windowResizedCallback(width, height);
+		});
+
+		glfwSetKeyCallback(mWindow, [](GLFWwindow* window, int key, int scanCode, int action, int mods) {
+			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+
+			switch(action) {
+				case GLFW_PRESS:
+					windowData.keyPressedCallback(key);
+					break;
+				case GLFW_RELEASE:
+					windowData.keyReleasedCallback(key);
+					break;
+				case GLFW_REPEAT:
+					windowData.keyRepeatedCallback(key);
+					break;
+			};
+		});
+
+		glfwSetMouseButtonCallback(mWindow, [](GLFWwindow* window, int button, int action, int mods) {
+			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+
+			switch(action) {
+				case GLFW_PRESS:
+					windowData.mouseButtonPressedCallback(button);
+					break;
+				case GLFW_RELEASE:
+					windowData.mouseButtonReleasedCallback(button);
+					break;
+			}
+		});
+
+		glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double x, double y) {
+			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+
+			windowData.mouseMovedCallback(x, y);
+		});
+
+		glfwSetScrollCallback(mWindow, [](GLFWwindow* window, double x, double y) {
+			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+
+			windowData.mouseScrolledCallback(x, y);
+		});
 	}
 
 	void OpenGlWindow::Update() {
@@ -41,16 +101,6 @@ namespace Engine::Windows {
 
 		glClearColor(0.1, 0.1, 0.1, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		glBegin(GL_QUADS);
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex2f(-0.5f, -0.5f);
-		glVertex2f(0.5f, -0.5f);
-		glVertex2f(0.5f, 0.5f);
-		glVertex2f(-0.5f, 0.5f);
-		glEnd();
-
-		glFlush();
 
 		glfwPollEvents();
 		glfwSwapBuffers(mWindow);
