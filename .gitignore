@@ -1,9 +1,6 @@
 *.sln
 *.vcxproj
 
-# Exclude ignoring exe in build
-!build/*.exe
-
 # Compiled source #
 ###################
 *.com
@@ -455,3 +452,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Exclude ignoring exe in build
+!build/*.exe
