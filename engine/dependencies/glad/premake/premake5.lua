@@ -3,8 +3,8 @@ project "Glad"
 	kind "StaticLib"
 	language "C"
 	
-	targetdir ("%{prj.location}/bin/%{outputDir}")
-	objdir ("%{prj.location}/bin-int/%{outputDir}")
+	targetdir "%{binDir}"
+	objdir "%{binIntDir}"
 	
 	files {
 		"%{prj.location}/include/glad/glad.h",

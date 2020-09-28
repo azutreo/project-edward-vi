@@ -1,10 +1,14 @@
 #pragma once
 
-#include "windows/window.hpp"
+#include "rendering/window.hpp"
+
+#include "rendering/opengl/graphics_context_opengl.hpp"
+#include "rendering/opengl/shader_opengl.hpp"
+#include "rendering/opengl/buffer_opengl.hpp"
 
 struct GLFWwindow;
 
-namespace Engine::Windows {
+namespace Engine::Renderer {
 
 	static bool sgGlfwInitialized = false;
 
@@ -30,8 +34,16 @@ namespace Engine::Windows {
 
 	class OpenGlWindow : public Window {
 
-		GLFWwindow* mWindow;
 		OpenGlWindowData mWindowData;
+
+		GLFWwindow* mWindow;
+		OpenGlContext* mContext;
+
+		unsigned int mVertexArray = 0;
+
+		std::unique_ptr<OpenGlShader> mShader;
+		std::unique_ptr<OpenGlVertexBuffer> mVertexBuffer;
+		std::unique_ptr<OpenGlIndexBuffer> mIndexBuffer;
 
 	public:
 

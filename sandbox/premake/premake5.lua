@@ -5,8 +5,8 @@ project "Sandbox"
 	cppdialect "C++17"
 	staticruntime "on"
 	
-	targetdir ("%{prj.location}/bin/%{outputDir}")
-	objdir ("%{prj.location}/bin-int/%{outputDir}")
+	targetdir "%{binDir}"
+	objdir "%{binIntDir}"
 	
 	pchheader "precompiled/precompiled.hpp"
 	pchsource "../../sandbox/source/precompiled/precompiled.cpp"

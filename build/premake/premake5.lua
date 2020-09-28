@@ -1,4 +1,5 @@
-outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+binDir = "%{wks.location}/bin/%{prj.name}-%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+binIntDir = "%{wks.location}/bin-int/%{prj.name}-%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 workspace "Project Edward VI"
 	location "../.."
@@ -20,8 +21,8 @@ project "Premake"
 	location "%{wks.location}/build/premake"
 	kind "Utility"
 	
-	targetdir ("%{prj.location}/bin/" .. outputDir)
-	objdir ("%{prj.location}/bin-int/" .. outputDir)
+	targetdir "%{binDir}"
+	objdir "%{binIntDir}"
 
 	files {
 		"%{wks.location}/**premake5.lua"

@@ -11,8 +11,8 @@ project "Engine"
 	cppdialect "C++17"
 	staticruntime "on"
 	
-	targetdir ("%{prj.location}/bin/%{outputDir}")
-	objdir ("%{prj.location}/bin-int/%{outputDir}")
+	targetdir "%{binDir}"
+	objdir "%{binIntDir}"
 	
 	pchheader "engine_precompiled/engine_precompiled.hpp"
 	pchsource "../../engine/source/engine_precompiled/engine_precompiled.cpp"

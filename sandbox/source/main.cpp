@@ -4,7 +4,11 @@
 #include "mathematics/vectors/vector2.hpp"
 #include "application/application.hpp"
 
-double GRAVITY = -9.8;
+#include <thread>
+
+/*#include <math.h>
+
+double GRAVITY = -9.8;*/
 
 int main(int argc, char** argv) {
 	Engine::Mathematics::Vector2 position(0, 0);
@@ -21,13 +25,17 @@ int main(int argc, char** argv) {
 		position.SetX(xPosition);
 		position.SetY(yPosition);
 
-		printf("p(%i, %i)\n", (int)position.GetX(), (int)position.GetY());
+		if(position.GetY() <= 0) {
+			velocity.SetY(std::abs(yVelocity));
+		}
+
+		printf("p(%i, %i) v(%i, %i)\n", (int)position.GetX(), (int)position.GetY(), (int)velocity.GetX(), (int)velocity.GetY());
 
 		return false;
 	});*/
 
 	application->Run();
-
 	delete application;
+
 	return 0;
 }
