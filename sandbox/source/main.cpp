@@ -4,6 +4,8 @@
 #include "mathematics/vectors/vector2.hpp"
 #include "application/application.hpp"
 
+#include <thread>
+
 /*#include <math.h>
 
 double GRAVITY = -9.8;*/
@@ -33,7 +35,7 @@ int main(int argc, char** argv) {
 	});*/
 
 	application->Run();
-
 	delete application;
+
 	return 0;
 }

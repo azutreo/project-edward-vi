@@ -9,6 +9,8 @@ namespace Engine::Renderer {
 		uint32_t mRendererId = 0;
 		unsigned int mVertexBuffer = 0;
 
+		BufferLayout mLayout;
+
 	public:
 
 		OpenGlVertexBuffer(float* vertices = 0, uint32_t size = 0);
@@ -16,6 +18,9 @@ namespace Engine::Renderer {
 
 		void Bind() const override;
 		void Unbind() const override;
+
+		void SetLayout(const BufferLayout& layout) { mLayout = layout; }
+		const BufferLayout& GetLayout() const { return mLayout; }
 
 	};
 

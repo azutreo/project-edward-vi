@@ -15,7 +15,7 @@ namespace Engine::Renderer {
 		glfwMakeContextCurrent(mWindow);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-		printf("Renderer:\n  Type: OpenGL\n  Graphics Card: %s\n  Version: %s\n", glGetString(GL_RENDERER), glGetString(GL_VERSION));
+		//printf("Renderer:\n  Type: OpenGL\n  Graphics Card: %s\n  Version: %s\n", glGetString(GL_RENDERER), glGetString(GL_VERSION));
 	}
 
 	OpenGlContext::~OpenGlContext() {
