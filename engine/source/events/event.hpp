@@ -21,13 +21,11 @@
 namespace Engine::Events {
 
 	class Event {
-
 		std::string mName;
 		using Function = std::function<bool()>; // If there are arguments, put them in the ()
 		std::vector<Function> mConnections;
 
 	public:
-
 		Event(std::string name = "Event");
 		virtual ~Event() = default;
 

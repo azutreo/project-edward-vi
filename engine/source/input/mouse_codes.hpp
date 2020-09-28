@@ -3,7 +3,6 @@
 namespace Engine::Input {
 
 	enum class MouseCode {
-
 		MOUSE_BUTTON_1 = 0,
 		MOUSE_BUTTON_2 = 1,
 		MOUSE_BUTTON_3 = 2,
@@ -17,7 +16,6 @@ namespace Engine::Input {
 		MOUSE_BUTTON_LEFT = MOUSE_BUTTON_1,
 		MOUSE_BUTTON_RIGHT = MOUSE_BUTTON_2,
 		MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3,
-
 	};
 
 }

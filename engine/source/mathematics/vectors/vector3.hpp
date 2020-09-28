@@ -3,14 +3,12 @@
 namespace Engine::Mathematics {
 
 	class Vector3 {
-
 		double mX;
 		double mY;
 		double mZ;
 		double mMagnitude;
 
 	public:
-
 		Vector3(double x = 0, double y = 0, double z = 0);
 		virtual ~Vector3() = default;
 
@@ -50,7 +48,6 @@ namespace Engine::Mathematics {
 		static Vector3 Divide(const Vector3& vector, double scalar);
 
 		friend std::ostream& operator<<(std::ostream& ostream, const Vector3& vector);
-
 	};
 
 }

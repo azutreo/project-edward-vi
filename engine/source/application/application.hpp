@@ -14,14 +14,12 @@ namespace Engine {
 		std::chrono::steady_clock::time_point mRunningTime = std::chrono::high_resolution_clock::now();
 
 	public:
-
 		Application();
 		~Application();
 
 		void Run();
 
 		Events::ApplicationUpdatedEvent Updated;
-
 	};
 
 }

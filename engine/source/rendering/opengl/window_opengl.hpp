@@ -13,7 +13,6 @@ namespace Engine::Renderer {
 	static bool sgGlfwInitialized = false;
 
 	struct OpenGlWindowData {
-
 		std::string title = "";
 		unsigned int width = 0;
 		unsigned int height = 0;
@@ -29,24 +28,22 @@ namespace Engine::Renderer {
 		std::function<void(int button)> mouseButtonReleasedCallback;
 		std::function<void(double x, double y)> mouseMovedCallback;
 		std::function<void(double x, double y)> mouseScrolledCallback;
-
 	};
 
 	class OpenGlWindow : public Window {
-
 		OpenGlWindowData mWindowData;
 
 		GLFWwindow* mWindow;
 		OpenGlContext* mContext;
 
-		unsigned int mVertexArray = 0;
+		std::shared_ptr<OpenGlShader> mShader;
+		std::shared_ptr<OpenGlVertexArray> mSquareVA;
 
-		std::unique_ptr<OpenGlShader> mShader;
-		std::unique_ptr<OpenGlVertexBuffer> mVertexBuffer;
-		std::unique_ptr<OpenGlIndexBuffer> mIndexBuffer;
+		/*std::shared_ptr<OpenGlVertexArray> mVertexArray;
+		std::shared_ptr<OpenGlVertexBuffer> mVertexBuffer;
+		std::shared_ptr<OpenGlIndexBuffer> mIndexBuffer;*/
 
 	public:
-
 		OpenGlWindow(const WindowProperties& properties = WindowProperties());
 		~OpenGlWindow();
 
@@ -69,7 +66,6 @@ namespace Engine::Renderer {
 		inline void SetMouseButtonReleasedCallback(std::function<void(int button)> callback) { mWindowData.mouseButtonReleasedCallback = callback; };
 		inline void SetMouseMovedCallback(std::function<void(double x, double y)> callback) { mWindowData.mouseMovedCallback = callback; };
 		inline void SetMouseScrolledCallback(std::function<void(double x, double y)> callback) { mWindowData.mouseScrolledCallback = callback; };
-
 	};
 
 }

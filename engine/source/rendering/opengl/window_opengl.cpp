@@ -11,24 +11,6 @@
 
 namespace Engine::Renderer {
 
-	static GLenum ShaderDataTypeToOpenGlBaseType(ShaderDataType type) {
-		switch(type) {
-			case ShaderDataType::INT: return GL_INT;
-			case ShaderDataType::BOOL: return GL_BOOL;
-			case ShaderDataType::FLOAT: return GL_FLOAT;
-			case ShaderDataType::INT2: return GL_INT;
-			case ShaderDataType::INT3: return GL_INT;
-			case ShaderDataType::INT4: return GL_INT;
-			case ShaderDataType::FLOAT2: return GL_FLOAT;
-			case ShaderDataType::FLOAT3: return GL_FLOAT;
-			case ShaderDataType::FLOAT4: return GL_FLOAT;
-			case ShaderDataType::MATRIX3: return GL_INT;
-			case ShaderDataType::MATRIX4: return GL_INT;
-		}
-
-		return 0;
-	}
-
 	OpenGlWindow::OpenGlWindow(const WindowProperties& properties) {
 		mWindowData.title = properties.title;
 		mWindowData.width = properties.width;
@@ -113,47 +95,61 @@ namespace Engine::Renderer {
 			windowData.mouseScrolledCallback(x, y);
 		});
 
-		glGenVertexArrays(1, &mVertexArray);
-		glBindVertexArray(mVertexArray);
+		///////////////////////////
+		// For Testing Rendering //
+		///////////////////////////
 
-		float vertices[3 * 3 * 2] = {
-			-1.0f, -1.0f, 0.0f,
-			1.0f, -1.0f, 0.0f,
-			-1.0f, 1.0f, 0.0f,
-
-			1.0f, -1.0f, 0.0f,
-			1.0f, 1.0f, 0.0f,
-			-1.0f, 1.0f, 0.0f
+		float vertices[(3 + 4) * 4] = { // square
+			-0.5f, -0.5f,  0.0f,  0.8f,  0.0f,  0.0f,  1.0f, // 0 bottom left
+			 0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f, // 1 bottom right
+			 0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f, // 2 top right
+			-0.5f,  0.5f,  0.0f,  0.8f,  0.0f,  0.0f,  1.0f, // 3 top left
 		};
-		mVertexBuffer.reset(new OpenGlVertexBuffer(vertices, sizeof(vertices)));
-
-		// Replaced with the layout stuff below
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-		
+		unsigned int indices[6] = { 0, 1, 3, 1, 2, 3 };
 		BufferLayout layout = {
 			{ ShaderDataType::FLOAT3, "a_Position" },
-			{ ShaderDataType::FLOAT4, "color" },
-			{ ShaderDataType::FLOAT3, "a_Normal" },
-		};
-		mVertexBuffer->SetLayout(layout);
-
-		uint32_t index = 0;
-		for(const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			
-			glVertexAttribPointer(index,
-				element.GetElementCount(),
-				ShaderDataTypeToOpenGlBaseType(element.type),
-				element.normalized ? GL_TRUE : GL_FALSE,
-				element.size, // layout.GetStride() // no idea why using size works but not stride
-				(const void*)element.offset);
-
-			index++;
+			{ ShaderDataType::FLOAT4, "a_color" },
 		};
 
-		unsigned int indices[6] = { 0, 1, 2, 3, 4, 5 };
-		mIndexBuffer.reset(new OpenGlIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t)));
+		mSquareVA.reset(new OpenGlVertexArray());
+		mSquareVA->Unbind();
+
+		std::shared_ptr<OpenGlVertexBuffer> squareVB = std::make_shared<OpenGlVertexBuffer>(vertices, sizeof(vertices));
+		squareVB->SetLayout(layout);
+		mSquareVA->AddVertexBuffer(squareVB);
+
+		std::shared_ptr<OpenGlIndexBuffer> squareIB = std::make_shared<OpenGlIndexBuffer>(indices, sizeof(indices) / sizeof(uint32_t));
+		mSquareVA->AddVertexBuffer(squareVB);
+		mSquareVA->SetIndexBuffer(squareIB);
+
+		/*std::string vertexSource = R"(
+			#version 330 core
+		
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
+
+			out vec3 v_Position;
+			out vec4 v_Color;
+
+			void main() {
+				v_Position = a_Position;
+				v_Color = a_Color;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string fragmentSource = R"(
+			#version 330 core
+		
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+			in vec4 v_Color;
+
+			void main() {
+				color = v_Color;
+			}
+		)";*/
 
 		std::string vertexSource = R"(
 			#version 330 core
@@ -161,6 +157,7 @@ namespace Engine::Renderer {
 			layout(location = 0) in vec3 a_Position;
 
 			out vec3 v_Position;
+			out vec4 v_Color;
 
 			void main() {
 				v_Position = a_Position;
@@ -172,6 +169,7 @@ namespace Engine::Renderer {
 			#version 330 core
 		
 			layout(location = 0) out vec4 color;
+
 			in vec3 v_Position;
 
 			void main() {
@@ -192,8 +190,8 @@ namespace Engine::Renderer {
 		glClearColor((GLfloat)0.05f, (GLfloat)0.05f, (GLfloat)0.075f, (GLfloat)1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glBindVertexArray(mVertexArray);
-		glDrawElements(GL_TRIANGLES, mIndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+		mSquareVA->Bind();
+		mSquareVA->Draw();
 	};
 
 

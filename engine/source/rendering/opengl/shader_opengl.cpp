@@ -2,7 +2,10 @@
 #include "engine_precompiled/engine_precompiled.hpp"
 #include "rendering/opengl/shader_opengl.hpp"
 
+#include "rendering/opengl/buffer_opengl.hpp"
+
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Engine::Renderer {
 

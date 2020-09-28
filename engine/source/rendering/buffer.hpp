@@ -36,7 +36,6 @@ namespace Engine::Renderer {
 	}
 
 	struct BufferElement {
-
 		std::string name;
 		ShaderDataType type;
 		uint32_t size;
@@ -63,16 +62,13 @@ namespace Engine::Renderer {
 
 			return 0;
 		}
-
 	};
 
 	class BufferLayout {
-
 		std::vector<BufferElement> mElements;
 		uint32_t mStride = 0;
 
 	public:
-
 		BufferLayout(const std::initializer_list<BufferElement>& elements = {})
 			: mElements(elements) {
 			CalculateOffsetsAndStride();
@@ -83,9 +79,10 @@ namespace Engine::Renderer {
 
 		std::vector<BufferElement>::iterator begin() { return mElements.begin(); }
 		std::vector<BufferElement>::iterator end() { return mElements.end(); }
+		std::vector<BufferElement>::const_iterator begin() const { return mElements.begin(); }
+		std::vector<BufferElement>::const_iterator end() const  { return mElements.end(); }
 
 	private:
-
 		void CalculateOffsetsAndStride() {
 			uint32_t offset = 0;
 			mStride = 0;
@@ -96,16 +93,17 @@ namespace Engine::Renderer {
 				mStride += element.size;
 			}
 		}
-
 	};
 
-	struct Buffer {
+	class Buffer {
+	protected:
+		uint32_t mRendererId = 0;
 
+	public:
 		virtual ~Buffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
-
 	};
 
 }
