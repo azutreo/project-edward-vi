@@ -7,7 +7,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace Engine::Renderer {
+namespace Engine::Rendering {
 
 	static GLenum ShaderDataTypeToOpenGlBaseType(const ShaderDataType type) {
 		switch(type) {
@@ -92,7 +92,7 @@ namespace Engine::Renderer {
 		glDrawElements(GL_TRIANGLES, mIndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
-	void OpenGlVertexArray::AddVertexBuffer(std::shared_ptr<OpenGlVertexBuffer>& vertexBuffer) {
+	void OpenGlVertexArray::AddVertexBuffer(std::shared_ptr<VertexBuffer>& vertexBuffer) {
 		glBindVertexArray(mRendererId);
 		vertexBuffer->Bind();
 
@@ -114,7 +114,7 @@ namespace Engine::Renderer {
 		mVertexBuffers.push_back(vertexBuffer);
 	};
 
-	void OpenGlVertexArray::SetIndexBuffer(std::shared_ptr<OpenGlIndexBuffer>& indexBuffer) {
+	void OpenGlVertexArray::SetIndexBuffer(std::shared_ptr<IndexBuffer>& indexBuffer) {
 		glBindVertexArray(mRendererId);
 		indexBuffer->Bind();
 

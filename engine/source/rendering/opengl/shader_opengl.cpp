@@ -7,7 +7,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace Engine::Renderer {
+#include <glm/gtc/type_ptr.hpp>
+
+namespace Engine::Rendering {
 
 	OpenGlShader::OpenGlShader(const std::string& vertexSource, const std::string& fragmentSource) {
 		// Create an empty vertex shader handle
@@ -124,6 +126,11 @@ namespace Engine::Renderer {
 
 	void OpenGlShader::Unbind() {
 		glUseProgram(0);
+	};
+
+	void OpenGlShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) {
+		GLint location = glGetUniformLocation(mRendererId, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	};
 
 }

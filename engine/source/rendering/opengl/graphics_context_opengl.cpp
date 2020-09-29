@@ -7,7 +7,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-namespace Engine::Renderer {
+namespace Engine::Rendering {
 
 	OpenGlContext::OpenGlContext(GLFWwindow* window) {
 		mWindow = window;
@@ -19,7 +19,7 @@ namespace Engine::Renderer {
 	}
 
 	OpenGlContext::~OpenGlContext() {
-
+		// :TODO:
 	}
 
 	void OpenGlContext::SwapBuffers() {

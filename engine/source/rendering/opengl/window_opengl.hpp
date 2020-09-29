@@ -2,13 +2,19 @@
 
 #include "rendering/window.hpp"
 
+#include "rendering/shader.hpp"
+#include "rendering/buffer.hpp"
+
 #include "rendering/opengl/graphics_context_opengl.hpp"
 #include "rendering/opengl/shader_opengl.hpp"
 #include "rendering/opengl/buffer_opengl.hpp"
+#include "rendering/opengl/renderer_opengl.hpp"
+
+#include "objects/camera.hpp"
 
 struct GLFWwindow;
 
-namespace Engine::Renderer {
+namespace Engine::Rendering {
 
 	static bool sgGlfwInitialized = false;
 
@@ -36,13 +42,6 @@ namespace Engine::Renderer {
 		GLFWwindow* mWindow;
 		OpenGlContext* mContext;
 
-		std::shared_ptr<OpenGlShader> mShader;
-		std::shared_ptr<OpenGlVertexArray> mSquareVA;
-
-		/*std::shared_ptr<OpenGlVertexArray> mVertexArray;
-		std::shared_ptr<OpenGlVertexBuffer> mVertexBuffer;
-		std::shared_ptr<OpenGlIndexBuffer> mIndexBuffer;*/
-
 	public:
 		OpenGlWindow(const WindowProperties& properties = WindowProperties());
 		~OpenGlWindow();
@@ -56,6 +55,9 @@ namespace Engine::Renderer {
 
 		inline bool IsVSync() const override { return mWindowData.vSync; };
 		void SetVSync(bool enabled) override;
+
+		inline void* GetNativeWindow() const override { return mWindow; }
+		inline Renderer* GetRenderer() const override { return mRenderer; }
 
 		inline void SetWindowClosedCallback(std::function<void()> callback) { mWindowData.windowClosedCallback = callback; };
 		inline void SetWindowResizedCallback(std::function<void(int x, int y)> callback) { mWindowData.windowResizedCallback = callback; };

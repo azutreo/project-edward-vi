@@ -1,11 +1,15 @@
 #pragma once
 
-enum KeyCode;
-enum MouseCode;
+namespace Engine {
+	class Application;
+}
 
 namespace Engine::Input {
 
-	bool IsButtonPressed(const KeyCode& keyCode);
+	enum class KeyCode;
+	enum class MouseCode;
+
+	bool IsButtonPressed(Engine::Application* application, const KeyCode& keyCode);
 	bool IsMouseButtonPressed(const MouseCode& mouseCode);
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Engine::Renderer {
+namespace Engine::Rendering {
 
 	enum class ShaderDataType {
 		NONE = 0,
@@ -17,23 +17,7 @@ namespace Engine::Renderer {
 		MATRIX4,
 	};
 
-	static uint32_t ShaderDataTypeSize(ShaderDataType type) {
-		switch(type) {
-			case ShaderDataType::INT: return 4;
-			case ShaderDataType::BOOL: return 1;
-			case ShaderDataType::FLOAT: return 4;
-			case ShaderDataType::INT2: return 4 * 2;
-			case ShaderDataType::INT3: return 4 * 3;
-			case ShaderDataType::INT4: return 4 * 4;
-			case ShaderDataType::FLOAT2: return 4 * 2;
-			case ShaderDataType::FLOAT3: return 4 * 3;
-			case ShaderDataType::FLOAT4: return 4 * 4;
-			case ShaderDataType::MATRIX3: return 4 * 3 * 3;
-			case ShaderDataType::MATRIX4: return 4 * 4 * 4;
-		}
-
-		return 0;
-	}
+	extern uint32_t ShaderDataTypeSize(ShaderDataType type);
 
 	struct BufferElement {
 		std::string name;
@@ -45,23 +29,7 @@ namespace Engine::Renderer {
 		BufferElement(ShaderDataType _type, const std::string& _name, const bool _normalized = false)
 		: name(_name), type(_type), normalized(_normalized), size(ShaderDataTypeSize(type)) {}
 
-		uint32_t GetElementCount() const {
-			switch(type) {
-				case ShaderDataType::INT: return 1;
-				case ShaderDataType::BOOL: return 1;
-				case ShaderDataType::FLOAT: return 1;
-				case ShaderDataType::INT2: return 2;
-				case ShaderDataType::INT3: return 3;
-				case ShaderDataType::INT4: return 4;
-				case ShaderDataType::FLOAT2: return 2;
-				case ShaderDataType::FLOAT3: return 3;
-				case ShaderDataType::FLOAT4: return 4;
-				case ShaderDataType::MATRIX3: return 3;
-				case ShaderDataType::MATRIX4: return 4;
-			}
-
-			return 0;
-		}
+		uint32_t GetElementCount() const;
 	};
 
 	class BufferLayout {
@@ -70,7 +38,7 @@ namespace Engine::Renderer {
 
 	public:
 		BufferLayout(const std::initializer_list<BufferElement>& elements = {})
-			: mElements(elements) {
+		: mElements(elements) {
 			CalculateOffsetsAndStride();
 		}
 
@@ -83,27 +51,65 @@ namespace Engine::Renderer {
 		std::vector<BufferElement>::const_iterator end() const  { return mElements.end(); }
 
 	private:
-		void CalculateOffsetsAndStride() {
-			uint32_t offset = 0;
-			mStride = 0;
-			for(auto& element : mElements) {
-				element.offset = offset;
-
-				offset += element.size;
-				mStride += element.size;
-			}
-		}
+		void CalculateOffsetsAndStride();
 	};
 
 	class Buffer {
+
 	protected:
 		uint32_t mRendererId = 0;
 
 	public:
-		virtual ~Buffer() = default;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
+	};
+
+	class VertexBuffer : public Buffer {
+		unsigned int mVertexBuffer = 0;
+
+		BufferLayout mLayout;
+
+	public:
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
+
+		virtual void SetLayout(const BufferLayout& layout) = 0;
+		virtual const BufferLayout& GetLayout() const = 0;
+
+		static VertexBuffer* Create(float* vertices = 0, uint32_t size = 0);
+	};
+
+	class IndexBuffer : public Buffer {
+		uint32_t mCount = 0;
+		unsigned int mIndexBuffer = 0;
+
+	public:
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
+
+		virtual inline uint32_t GetCount() const = 0;
+
+		static IndexBuffer* Create(uint32_t* indices = 0, uint32_t count = 0);
+	};
+
+	class VertexArray : public Buffer {
+		std::vector<std::shared_ptr<VertexBuffer>> mVertexBuffers;
+		std::shared_ptr<IndexBuffer> mIndexBuffer;
+
+	public:
+		virtual ~VertexArray() = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
+		virtual void Draw() const = 0;
+
+		virtual void AddVertexBuffer(std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
+		virtual void SetIndexBuffer(std::shared_ptr<IndexBuffer>& indexBuffer) = 0;
+
+		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const = 0;
+		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;
+
+		static VertexArray* Create();
 	};
 
 }

@@ -2,13 +2,13 @@
 
 #include "rendering/buffer.hpp"
 
-namespace Engine::Renderer {
+namespace Engine::Rendering {
 
 	///////////////////
 	// Vertex Buffer //
 	///////////////////
 
-	class OpenGlVertexBuffer : public Buffer {
+	class OpenGlVertexBuffer : public VertexBuffer {
 		unsigned int mVertexBuffer = 0;
 
 		BufferLayout mLayout;
@@ -28,7 +28,7 @@ namespace Engine::Renderer {
 	// Index Buffer //
 	//////////////////
 
-	class OpenGlIndexBuffer : public Buffer {
+	class OpenGlIndexBuffer : public IndexBuffer {
 		uint32_t mCount = 0;
 		unsigned int mIndexBuffer = 0;
 
@@ -46,9 +46,9 @@ namespace Engine::Renderer {
 	// Vertex Array //
 	//////////////////
 
-	class OpenGlVertexArray : public Buffer {
-		std::vector<std::shared_ptr<OpenGlVertexBuffer>> mVertexBuffers;
-		std::shared_ptr<OpenGlIndexBuffer> mIndexBuffer;
+	class OpenGlVertexArray : public VertexArray {
+		std::vector<std::shared_ptr<VertexBuffer>> mVertexBuffers;
+		std::shared_ptr<IndexBuffer> mIndexBuffer;
 
 	public:
 		OpenGlVertexArray();
@@ -58,11 +58,11 @@ namespace Engine::Renderer {
 		void Unbind() const override;
 		void Draw() const;
 
-		void AddVertexBuffer(std::shared_ptr<OpenGlVertexBuffer>& vertexBuffer);
-		void SetIndexBuffer(std::shared_ptr<OpenGlIndexBuffer>& indexBuffer);
+		void AddVertexBuffer(std::shared_ptr<VertexBuffer>& vertexBuffer);
+		void SetIndexBuffer(std::shared_ptr<IndexBuffer>& indexBuffer);
 
-		const std::vector<std::shared_ptr<OpenGlVertexBuffer>>& GetVertexBuffers() const { return mVertexBuffers; }
-		const std::shared_ptr<OpenGlIndexBuffer>& GetIndexBuffer() const { return mIndexBuffer; }
+		const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return mVertexBuffers; }
+		const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return mIndexBuffer; }
 	};
 
 }

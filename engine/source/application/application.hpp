@@ -8,7 +8,7 @@
 namespace Engine {
 
 	class Application {
-		Renderer::OpenGlWindow* mWindow;
+		Rendering::Window* mWindow;
 
 		bool mRunning = true;
 		std::chrono::steady_clock::time_point mRunningTime = std::chrono::high_resolution_clock::now();
@@ -18,6 +18,8 @@ namespace Engine {
 		~Application();
 
 		void Run();
+
+		inline Rendering::Window* GetWindow() const { return mWindow; }
 
 		Events::ApplicationUpdatedEvent Updated;
 	};

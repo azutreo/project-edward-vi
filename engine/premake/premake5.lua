@@ -19,13 +19,15 @@ project "Engine"
 	
 	files {
 		"%{prj.location}/source/**.cpp",
-		"%{prj.location}/source/**.hpp"
+		"%{prj.location}/source/**.hpp",
+		"%{prj.location}/dependencies/glm/glm/**.hpp"
 	}
 	
 	includedirs {
 		"%{prj.location}/source",
 		"%{prj.location}/dependencies/glfw/include",
-		"%{prj.location}/dependencies/glad/include"
+		"%{prj.location}/dependencies/glad/include",
+		"%{prj.location}/dependencies/glm"
 	}
 	
 	links {

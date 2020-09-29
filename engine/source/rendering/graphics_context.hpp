@@ -1,18 +1,14 @@
 #pragma once
 
-namespace Engine::Renderer {
+namespace Engine::Rendering {
 
 	class GraphicsContext {
-
-		void* mWindow;
+		void* mWindow = nullptr;
 
 	public:
-
-		GraphicsContext() = default;
 		virtual ~GraphicsContext() = default;
 
 		virtual void SwapBuffers() = 0;
-
 	};
 
 }

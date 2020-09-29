@@ -5,7 +5,7 @@
 namespace Engine {
 
 	Application::Application() {
-		mWindow = new Engine::Renderer::OpenGlWindow();
+		mWindow = new Engine::Rendering::OpenGlWindow();
 
 		mWindow->SetWindowClosedCallback([&]() {
 			mRunning = false;

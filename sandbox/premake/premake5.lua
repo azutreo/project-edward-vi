@@ -13,12 +13,14 @@ project "Sandbox"
 	
 	files {
 		"%{prj.location}/source/**.cpp",
-		"%{prj.location}/source/**.hpp"
+		"%{prj.location}/source/**.hpp",
+		"%{wks.location}/engine/dependencies/glm/glm/**.hpp"
 	}
 	
 	includedirs {
 		"%{prj.location}/source",
 		"%{wks.location}/engine/source",
+		"%{wks.location}/engine/dependencies/glm"
 		--"%{prj.location}/dependencies/glfw/include",
 		--"%{prj.location}/dependencies/glad/include"
 	}
