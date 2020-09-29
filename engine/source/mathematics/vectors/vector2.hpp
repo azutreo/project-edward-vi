@@ -2,47 +2,45 @@
 
 namespace Engine::Mathematics {
 
+	template <typename Type>
 	class Vector2 {
-		double mX;
-		double mY;
-		double mMagnitude;
+		Type mMagnitude;
 
 	public:
-		Vector2(double x = 0, double y = 0);
+		Type x = 0;
+		Type y = 0;
+
+	public:
+		Vector2(Type _x = 0, Type _y = 0);
 		virtual ~Vector2() = default;
 
-		void SetX(double x);
-		void SetY(double y);
+		inline Type GetMagnitude() const { return mMagnitude; }
 
-		inline double GetX() const { return mX; }
-		inline double GetY() const { return mY; }
-		inline double GetMagnitude() const { return mMagnitude; }
-
-		static double CalculateMagnitude(double x, double y);
+		static Type CalculateMagnitude(Type x, Type y);
 
 		Vector2 Add(const Vector2& vector) const;
-		Vector2 Add(double scalar) const;
+		Vector2 Add(Type scalar) const;
 
 		Vector2 Subtract(const Vector2& vector) const;
-		Vector2 Subtract(double scalar) const;
+		Vector2 Subtract(Type scalar) const;
 
 		Vector2 Multiply(const Vector2& vector) const;
-		Vector2 Multiply(double scalar) const;
+		Vector2 Multiply(Type scalar) const;
 
 		Vector2 Divide(const Vector2& vector) const;
-		Vector2 Divide(double scalar) const;
+		Vector2 Divide(Type scalar) const;
 
 		static Vector2 Add(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Add(const Vector2& vector, double scalar);
+		static Vector2 Add(const Vector2& vector, Type scalar);
 
 		static Vector2 Subtract(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Subtract(const Vector2& vector, double scalar);
+		static Vector2 Subtract(const Vector2& vector, Type scalar);
 
 		static Vector2 Multiply(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Multiply(const Vector2& vector, double scalar);
+		static Vector2 Multiply(const Vector2& vector, Type scalar);
 
 		static Vector2 Divide(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Divide(const Vector2& vector, double scalar);
+		static Vector2 Divide(const Vector2& vector, Type scalar);
 
 		friend std::ostream& operator<<(std::ostream& ostream, const Vector2& vector);
 	};

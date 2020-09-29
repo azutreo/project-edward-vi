@@ -5,105 +5,111 @@
 
 namespace Engine::Mathematics {
 
-	Vector3::Vector3(double x, double y, double z) : mX(x), mY(y), mZ(z) {
-		mMagnitude = CalculateMagnitude(mX, mY, mZ);
+	template <typename Type>
+	Vector3<Type>::Vector3<Type>(Type _x, Type _y, Type _z) : x(_x), y(_y), z(_z) {
+		mMagnitude = CalculateMagnitude(_x, _y, _z);
 	}
 
-	void Vector3::SetX(double x) {
-		mX = x;
-		mMagnitude = CalculateMagnitude(mX, mY, mZ);
-	}
-	void Vector3::SetY(double y) {
-		mY = y;
-		mMagnitude = CalculateMagnitude(mX, mY, mZ);
-	}
-	void Vector3::SetZ(double z) {
-		mZ = z;
-		mMagnitude = CalculateMagnitude(mX, mY, mZ);
-	}
-
-	double Vector3::CalculateMagnitude(double x, double y, double z) {
+	template <typename Type>
+	Type Vector3<Type>::CalculateMagnitude(Type x, Type y, Type z) {
 		return std::sqrt(std::pow(x, 2) + std::pow(y, 2) + std::pow(z, 2));
 	}
 
-	Vector3 Vector3::Add(const Vector3& vector) const {
-		return Vector3(mX + vector.mX,
-			mY + vector.mY,
-			mZ + vector.mZ);
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Add(const Vector3& vector) const {
+		return Vector3(x + vector.x,
+			y + vector.y,
+			z + vector.z);
 	}
-	Vector3 Vector3::Add(double scalar) const {
-		return Vector3(mX + scalar,
-			mY + scalar,
-			mZ + scalar);
-	}
-
-	Vector3 Vector3::Subtract(const Vector3& vector) const {
-		return Vector3(mX - vector.mX,
-			mY - vector.mY,
-			mZ - vector.mZ);
-	}
-	Vector3 Vector3::Subtract(double scalar) const {
-		return Vector3(mX - scalar,
-			mY - scalar,
-			mZ - scalar);
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Add(Type scalar) const {
+		return Vector3(x + scalar,
+			y + scalar,
+			z + scalar);
 	}
 
-	Vector3 Vector3::Multiply(const Vector3& vector) const {
-		return Vector3(mX * vector.mX,
-			mY * vector.mY,
-			mZ * vector.mZ);
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Subtract(const Vector3& vector) const {
+		return Vector3(x - vector.x,
+			y - vector.y,
+			z - vector.z);
 	}
-	Vector3 Vector3::Multiply(double scalar) const {
-		return Vector3(mX * scalar,
-			mY * scalar,
-			mZ * scalar);
-	}
-
-	Vector3 Vector3::Divide(const Vector3& vector) const {
-		return Vector3(mX / vector.mX,
-			mY / vector.mY,
-			mZ / vector.mZ);
-	}
-	Vector3 Vector3::Divide(double scalar) const {
-		return Vector3(mX / scalar,
-			mY / scalar,
-			mZ / scalar);
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Subtract(Type scalar) const {
+		return Vector3(x - scalar,
+			y - scalar,
+			z - scalar);
 	}
 
-	Vector3 Vector3::Add(const Vector3& vector1, const Vector3& vector2) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Multiply(const Vector3& vector) const {
+		return Vector3(x * vector.x,
+			y * vector.y,
+			z * vector.z);
+	}
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Multiply(Type scalar) const {
+		return Vector3(x * scalar,
+			y * scalar,
+			z * scalar);
+	}
+
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Divide(const Vector3& vector) const {
+		return Vector3(x / vector.x,
+			y / vector.y,
+			z / vector.z);
+	}
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Divide(Type scalar) const {
+		return Vector3(x / scalar,
+			y / scalar,
+			z / scalar);
+	}
+
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Add(const Vector3& vector1, const Vector3& vector2) {
 		return vector1.Add(vector2);
 	}
-	Vector3 Vector3::Add(const Vector3& vector, double scalar) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Add(const Vector3& vector, Type scalar) {
 		return vector.Add(scalar);
 	}
 
-	Vector3 Vector3::Subtract(const Vector3& vector1, const Vector3& vector2) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Subtract(const Vector3& vector1, const Vector3& vector2) {
 		return vector1.Subtract(vector2);
 	}
-	Vector3 Vector3::Subtract(const Vector3& vector, double scalar) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Subtract(const Vector3& vector, Type scalar) {
 		return vector.Subtract(scalar);
 	}
 
-	Vector3 Vector3::Multiply(const Vector3& vector1, const Vector3& vector2) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Multiply(const Vector3& vector1, const Vector3& vector2) {
 		return vector1.Multiply(vector2);
 	}
-	Vector3 Vector3::Multiply(const Vector3& vector, double scalar) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Multiply(const Vector3& vector, Type scalar) {
 		return vector.Multiply(scalar);
 	}
 
-	Vector3 Vector3::Divide(const Vector3& vector1, const Vector3& vector2) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Divide(const Vector3& vector1, const Vector3& vector2) {
 		return vector1.Divide(vector2);
 	}
-	Vector3 Vector3::Divide(const Vector3& vector, double scalar) {
+	template <typename Type>
+	Vector3<Type> Vector3<Type>::Divide(const Vector3& vector, Type scalar) {
 		return vector.Divide(scalar);
 	}
 
-	std::ostream& operator<<(std::ostream& ostream, const Vector3& vector) {
+	template <typename Type>
+	std::ostream& operator<<(std::ostream& ostream, const Vector3<Type>& vector) {
 		return ostream <<
 			"Vector3:" << std::endl <<
-			"  X: " << vector.mX << std::endl <<
-			"  Y: " << vector.mY << std::endl <<
-			"  Z: " << vector.mZ << std::endl <<
+			"  X: " << vector.x << std::endl <<
+			"  Y: " << vector.y << std::endl <<
+			"  Z: " << vector.z << std::endl <<
 			"  Magnitude: " << vector.mMagnitude;
 	}
 

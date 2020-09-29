@@ -5,93 +5,107 @@
 
 namespace Engine::Mathematics {
 
-	Vector2::Vector2(double x, double y) : mX(x), mY(y) {
-		mMagnitude = CalculateMagnitude(mX, mY);
+	template <typename Type>
+	Vector2<Type>::Vector2(Type _x, Type _y) : x(_x), y(_y) {
+		mMagnitude = CalculateMagnitude(x, y);
 	}
 
-	void Vector2::SetX(double x) {
-		mX = x;
-		mMagnitude = CalculateMagnitude(mX, mY);
-	}
-	void Vector2::SetY(double y) {
-		mY = y;
-		mMagnitude = CalculateMagnitude(mX, mY);
-	}
-
-	double Vector2::CalculateMagnitude(double x, double y) {
+	template <typename Type>
+	Type Vector2<Type>::CalculateMagnitude(Type x, Type y) {
 		return std::sqrt(std::pow(x, 2) + std::pow(y, 2));
 	}
 
-	Vector2 Vector2::Add(const Vector2& vector) const {
-		return Vector2(mX + vector.mX,
-			mY + vector.mY);
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Add(const Vector2& vector) const {
+		return Vector2(x + vector.x,
+			y + vector.y);
 	}
-	Vector2 Vector2::Add(double scalar) const {
-		return Vector2(mX + scalar,
-			mY + scalar);
-	}
-
-	Vector2 Vector2::Subtract(const Vector2& vector) const {
-		return Vector2(mX - vector.mX,
-			mY - vector.mY);
-	}
-	Vector2 Vector2::Subtract(double scalar) const {
-		return Vector2(mX - scalar,
-			mY - scalar);
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Add(Type scalar) const {
+		return Vector2(x + scalar,
+			y + scalar);
 	}
 
-	Vector2 Vector2::Multiply(const Vector2& vector) const {
-		return Vector2(mX * vector.mX,
-			mY * vector.mY);
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Subtract(const Vector2& vector) const {
+		return Vector2(x - vector.x,
+			y - vector.y);
 	}
-	Vector2 Vector2::Multiply(double scalar) const {
-		return Vector2(mX * scalar,
-			mY * scalar);
-	}
-
-	Vector2 Vector2::Divide(const Vector2& vector) const {
-		return Vector2(mX / vector.mX,
-			mY / vector.mY);
-	}
-	Vector2 Vector2::Divide(double scalar) const {
-		return Vector2(mX / scalar,
-			mY / scalar);
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Subtract(Type scalar) const {
+		return Vector2(x - scalar,
+			y - scalar);
 	}
 
-	Vector2 Vector2::Add(const Vector2& vector1, const Vector2& vector2) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Multiply(const Vector2& vector) const {
+		return Vector2(x * vector.x,
+			y * vector.y);
+	}
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Multiply(Type scalar) const {
+		return Vector2(x * scalar,
+			y * scalar);
+	}
+
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Divide(const Vector2& vector) const {
+		return Vector2(x / vector.x,
+			y / vector.y);
+	}
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Divide(Type scalar) const {
+		return Vector2(x / scalar,
+			y / scalar);
+	}
+
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Add(const Vector2& vector1, const Vector2& vector2) {
 		return vector1.Add(vector2);
 	}
-	Vector2 Vector2::Add(const Vector2& vector, double scalar) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Add(const Vector2& vector, Type scalar) {
 		return vector.Add(scalar);
 	}
 
-	Vector2 Vector2::Subtract(const Vector2& vector1, const Vector2& vector2) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Subtract(const Vector2& vector1, const Vector2& vector2) {
 		return vector1.Subtract(vector2);
 	}
-	Vector2 Vector2::Subtract(const Vector2& vector, double scalar) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Subtract(const Vector2& vector, Type scalar) {
 		return vector.Subtract(scalar);
 	}
 
-	Vector2 Vector2::Multiply(const Vector2& vector1, const Vector2& vector2) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Multiply(const Vector2& vector1, const Vector2& vector2) {
 		return vector1.Multiply(vector2);
 	}
-	Vector2 Vector2::Multiply(const Vector2& vector, double scalar) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Multiply(const Vector2& vector, Type scalar) {
 		return vector.Multiply(scalar);
 	}
 
-	Vector2 Vector2::Divide(const Vector2& vector1, const Vector2& vector2) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Divide(const Vector2& vector1, const Vector2& vector2) {
 		return vector1.Divide(vector2);
 	}
-	Vector2 Vector2::Divide(const Vector2& vector, double scalar) {
+	template <typename Type>
+	Vector2<Type> Vector2<Type>::Divide(const Vector2& vector, Type scalar) {
 		return vector.Divide(scalar);
 	}
 
-	std::ostream& operator<<(std::ostream& ostream, const Vector2& vector) {
+	template <typename Type>
+	std::ostream& operator<<(std::ostream& ostream, const Vector2<Type>& vector) {
 		return ostream <<
 			"Vector2:" << std::endl <<
-			"  X: " << vector.mX << std::endl <<
-			"  Y: " << vector.mY << std::endl <<
+			"  X: " << vector.x << std::endl <<
+			"  Y: " << vector.y << std::endl <<
 			"  Magnitude: " << vector.mMagnitude;
 	}
+
+	template class Vector2<float>;
+	template class Vector2<int>;
+	template class Vector2<double>;
 
 }
