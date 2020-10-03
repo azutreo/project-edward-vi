@@ -18,7 +18,7 @@
 	=============
 */
 
-namespace Engine::Events {
+namespace Engine {
 
 	class Event {
 		std::string mName;
@@ -29,7 +29,7 @@ namespace Engine::Events {
 		Event(std::string name = "Event");
 		virtual ~Event() = default;
 
-		inline std::string GetName() const { return mName; };
+		inline const std::string& GetName() const { return mName; };
 
 		virtual void Fire(); // If there are arguments, put them in the ()
 

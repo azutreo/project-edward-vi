@@ -7,7 +7,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	OpenGlContext::OpenGlContext(GLFWwindow* window) {
 		mWindow = window;

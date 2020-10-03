@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	class GraphicsContext {
 		void* mWindow = nullptr;

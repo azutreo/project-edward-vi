@@ -4,12 +4,9 @@
 
 #include <glm/glm.hpp>
 
-namespace Engine::Rendering {
+namespace Engine {
 
-	class OpenGlShader : public Shader {
-		uint32_t mRendererId = 0;
-
-	public:
+	struct OpenGlShader : public Shader {
 		OpenGlShader(const std::string& vertexSource, const std::string& fragmentSource);
 		~OpenGlShader();
 

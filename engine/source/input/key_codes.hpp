@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Engine::Input {
+namespace Engine {
 
 	enum class KeyCode {
 		KEY_UNKNOWN = -1,

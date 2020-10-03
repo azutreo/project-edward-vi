@@ -2,7 +2,7 @@
 
 #include "rendering/buffer.hpp"
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	///////////////////
 	// Vertex Buffer //

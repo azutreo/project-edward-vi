@@ -9,7 +9,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	OpenGlShader::OpenGlShader(const std::string& vertexSource, const std::string& fragmentSource) {
 		// Create an empty vertex shader handle

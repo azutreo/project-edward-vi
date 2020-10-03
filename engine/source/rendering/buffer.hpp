@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	enum class ShaderDataType {
 		NONE = 0,

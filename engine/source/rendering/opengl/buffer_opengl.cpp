@@ -7,7 +7,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	static GLenum ShaderDataTypeToOpenGlBaseType(const ShaderDataType type) {
 		switch(type) {

@@ -4,7 +4,7 @@
 
 struct GLFWwindow;
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	class OpenGlContext : public GraphicsContext {
 		GLFWwindow* mWindow;

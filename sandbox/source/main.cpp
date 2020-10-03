@@ -1,9 +1,10 @@
-#pragma once
 #include "precompiled/precompiled.hpp"
 
 #include "mathematics/vectors/vector2.hpp"
-#include "application/application.hpp"
+#include "mathematics/vectors/vector3.hpp"
+#include "rendering/window.hpp"
 
+#include "objects/object.hpp"
 #include "objects/camera.hpp"
 
 #include "input/input.hpp"
@@ -12,141 +13,124 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <thread>
+#include <fstream>
+#include <string>
 
-int main(int argc, char** argv) {
-	Engine::Mathematics::Vector2<float> position(0.1f, 0.0f);
-	Engine::Mathematics::Vector2<float> velocity(10.0f, 100.0f);
+Engine::Object getSquare() {
+	float vertices[(3 + 4) * 4 * 1] = { // square
+				   -0.5f, -0.5f,  0.0f,  0.1f,  0.1f,  0.1f,  1.0f, // 0 back bottom left
+					0.5f, -0.5f,  0.0f,  0.3f,  0.3f,  0.3f,  1.0f, // 1 back bottom right
+					0.5f,  0.5f,  0.0f,  0.5f,  0.5f,  0.5f,  1.0f, // 2 back top right
+				   -0.5f,  0.5f,  0.0f,  0.7f,  0.7f,  0.7f,  1.0f, // 3 back top left
 
-	Engine::Application* application = new Engine::Application();
-	Engine::Rendering::Renderer* mRenderer = application->GetWindow()->GetRenderer();
-
-	std::shared_ptr<Engine::Rendering::Shader> shader;
-	std::shared_ptr<Engine::Rendering::VertexArray> squareVA;
-	std::shared_ptr<Engine::Rendering::VertexBuffer> squareVB;
-	std::shared_ptr<Engine::Rendering::IndexBuffer> squareIB;
-
-	Engine::OrthographicCamera mCamera = { -1.6f, 1.6f, -0.9f, 0.9f };
-
-	float vertices[(3 + 4) * 4] = { // square
-			-0.5f, -0.5f,  0.0f,  0.8f,  0.0f,  0.0f,  1.0f, // 0 bottom left
-			 0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f, // 1 bottom right
-			 0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f, // 2 top right
-			-0.5f,  0.5f,  0.0f,  0.8f,  0.0f,  0.0f,  1.0f, // 3 top left
+				   /*-0.5f, -0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 0 front bottom left
+					0.5f, -0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 1 front bottom right
+					0.5f,  0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 2 front top right
+				   -0.5f,  0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 3 front top left*/
 	};
 	unsigned int indices[6] = { 0, 1, 3, 1, 2, 3 };
-	Engine::Rendering::BufferLayout layout = {
-		{ Engine::Rendering::ShaderDataType::FLOAT3, "Position" },
-		{ Engine::Rendering::ShaderDataType::FLOAT4, "Color" },
+	Engine::BufferLayout layout = {
+		{ Engine::ShaderDataType::FLOAT3, "Position" },
+		{ Engine::ShaderDataType::FLOAT4, "Color" },
 	};
 
-	squareVA.reset(Engine::Rendering::VertexArray::Create());
-	squareVA->Unbind();
+	std::ifstream vertexSource("../content/content/shaders/test.vert.glsl");
+	std::string vertexSourceContent((std::istreambuf_iterator<char>(vertexSource)),
+									(std::istreambuf_iterator<char>()));
 
-	squareVB.reset(Engine::Rendering::VertexBuffer::Create(vertices, sizeof(vertices)));
-	squareVB->SetLayout(layout);
-	squareVA->AddVertexBuffer(squareVB);
+	std::ifstream fragmentSource("../content/content/shaders/test.frag.glsl");
+	std::string fragmentSourceContent((std::istreambuf_iterator<char>(fragmentSource)),
+										(std::istreambuf_iterator<char>()));
 
-	squareIB.reset(Engine::Rendering::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-	squareVA->AddVertexBuffer(squareVB);
-	squareVA->SetIndexBuffer(squareIB);
+	std::shared_ptr<Engine::Shader> shader;
+	shader.reset(Engine::Shader::Create(vertexSourceContent, fragmentSourceContent));
 
-	std::string vertexSource = R"(
-			#version 330 core
-		
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
+	return Engine::Object("Square", vertices, sizeof(vertices), indices, sizeof(indices) / sizeof(uint32_t), shader, &layout);
+}
 
-			out vec3 v_Position;
-			out vec4 v_Color;
+int main(int argc, char** argv) {
+	Engine::Window* window = Engine::Window::Create();
 
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
+	std::shared_ptr<Engine::Renderer> renderer = window->GetRenderer();
+	std::shared_ptr<Engine::Input> input = window->GetInput();
 
-			void main() {
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-		)";
+	Engine::Camera mCamera(-1.6f, 1.6f, -0.9f, 0.9f);
 
-	std::string fragmentSource = R"(
-			#version 330 core
-		
-			layout(location = 0) out vec4 color;
+	float squareMoveSpeed = 2.0f;
 
-			in vec3 v_Position;
-			in vec4 v_Color;
+	Engine::Object square = getSquare();
 
-			uniform mat4 u_ViewProjection;
+	window->UpdatedEvent.Connect([=, &renderer, &mCamera, &square](double deltaTime) {
+		renderer->SetClearColor(0.05f, 0.05f, 0.075f, 1.0f);
+		renderer->ClearScreen();
 
-			void main() {
-				color = v_Color;
-			}
-		)";
-
-	shader.reset(Engine::Rendering::Shader::Create(vertexSource, fragmentSource));
-
-	float squareMoveSpeed = 1.0f;
-	glm::vec3 squarePosition = { 0.0f, 0.0f, 0.0f };
-
-	application->Updated.Connect([&](double deltaTime) {
-		mRenderer->SetClearColor(0.05f, 0.05f, 0.075f, 1.0f);
-		mRenderer->ClearScreen();
-
-		mRenderer->StartScene(mCamera);
+		renderer->StartScene(mCamera);
 		{ // :TODO: For each object in the scene
-			glm::mat4 transform = glm::translate(glm::mat4(1.0f), squarePosition);
-			mRenderer->Submit(squareVA, shader, transform);
+			glm::mat4 transform = glm::translate(glm::mat4(1.0f), square.GetPosition());
+			renderer->Submit(square.GetVertexArray(), square.GetShader(), transform);
 		}
-		mRenderer->EndScene();
+		renderer->EndScene();
 
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_A)) {
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_A)) {
 			glm::vec3 position = mCamera.GetPosition();
-			mCamera.SetPosition({ position.x - (deltaTime * mCamera.MoveSpeed), position.y, position.z });
+			position.x -= (deltaTime * mCamera.moveSpeed);
+			mCamera.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_D)) {
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_D)) {
 			glm::vec3 position = mCamera.GetPosition();
-			mCamera.SetPosition({ position.x + (deltaTime * mCamera.MoveSpeed), position.y, position.z });
+			position.x += (deltaTime * mCamera.moveSpeed);
+			mCamera.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_W)) {
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_W)) {
 			glm::vec3 position = mCamera.GetPosition();
-			mCamera.SetPosition({ position.x, position.y + (deltaTime * mCamera.MoveSpeed), position.z });
+			position.y += (deltaTime * mCamera.moveSpeed);
+			mCamera.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_S)) {
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_S)) {
 			glm::vec3 position = mCamera.GetPosition();
-			mCamera.SetPosition({ position.x, position.y - (deltaTime * mCamera.MoveSpeed), position.z });
+			position.y -= (deltaTime * mCamera.moveSpeed);
+			mCamera.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_Q)) {
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_Q)) {
 			glm::vec3 rotation = mCamera.GetRotation();
-			mCamera.SetRotation({ rotation.x, rotation.x, rotation.z - (deltaTime * mCamera.RotateSpeed) });
+			rotation.z += (deltaTime * mCamera.rotateSpeed);
+			mCamera.SetRotation(rotation);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_E)) {
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_E)) {
 			glm::vec3 rotation = mCamera.GetRotation();
-			mCamera.SetRotation({ rotation.x, rotation.x, rotation.z + (deltaTime * mCamera.RotateSpeed) });
+			rotation.z -= (deltaTime * mCamera.rotateSpeed);
+			mCamera.SetRotation(rotation);
 		}
 
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_LEFT)) {
-			squarePosition = { squarePosition.x - (deltaTime * mCamera.MoveSpeed), squarePosition.y, squarePosition.z };
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_LEFT)) {
+			glm::vec3 position = square.GetPosition();
+			position.x -= (deltaTime * squareMoveSpeed);
+			square.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_RIGHT)) {
-			squarePosition = { squarePosition.x + (deltaTime * mCamera.MoveSpeed), squarePosition.y, squarePosition.z };
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_RIGHT)) {
+			glm::vec3 position = square.GetPosition();
+			position.x += (deltaTime * squareMoveSpeed);
+			square.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_UP)) {
-			squarePosition = { squarePosition.x, squarePosition.y + (deltaTime * mCamera.MoveSpeed), squarePosition.z };
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_UP)) {
+			glm::vec3 position = square.GetPosition();
+			position.y += (deltaTime * squareMoveSpeed);
+			square.SetPosition(position);
 		}
-		if(Engine::Input::IsButtonPressed(application, Engine::Input::KeyCode::KEY_DOWN)) {
-			squarePosition = { squarePosition.x, squarePosition.y - (deltaTime * mCamera.MoveSpeed), squarePosition.z };
+		if(input->IsKeyPressed(Engine::KeyCode::KEY_DOWN)) {
+			glm::vec3 position = square.GetPosition();
+			position.y -= (deltaTime * squareMoveSpeed);
+			square.SetPosition(position);
 		}
-
-		//glm::vec3 cameraPosition = mCamera.GetPosition();
-		//printf("Camera Position: (%f, %f, %f) Square Position: (%f, %f, %f)\n", cameraPosition.x, cameraPosition.y, cameraPosition.z, squarePosition.x, squarePosition.y, squarePosition.z);
 
 		return false;
 	});
 
-	application->Run();
-	delete application;
+	while(window->Running) {
+		window->Update();
+	}
+
+	delete window;
 
 	return 0;
 }

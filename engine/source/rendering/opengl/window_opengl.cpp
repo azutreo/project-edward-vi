@@ -3,31 +3,27 @@
 #include "rendering/opengl/window_opengl.hpp"
 
 #include "rendering/opengl/graphics_context_opengl.hpp"
-#include "rendering/opengl/shader_opengl.hpp"
-#include "rendering/opengl/buffer_opengl.hpp"
-#include "rendering/opengl/renderer_opengl.hpp"
 
-#include "objects/camera.hpp"
+#include "input/input.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace Engine::Rendering {
+namespace Engine {
 
 	OpenGlWindow::OpenGlWindow(const WindowProperties& properties) {
-		mWindowData.title = properties.title;
-		mWindowData.width = properties.width;
-		mWindowData.height = properties.height;
+		mWindowProperties.title = properties.title;
+		mWindowProperties.width = properties.width;
+		mWindowProperties.height = properties.height;
 
-		Create();
+		Initialize();
 	};
 
 	OpenGlWindow::~OpenGlWindow() {
 		glfwDestroyWindow(mWindow);
-		delete mContext;
 	};
 
-	void OpenGlWindow::Create() {
+	void OpenGlWindow::Initialize() {
 		if(!sgGlfwInitialized) {
 			int success = glfwInit();
 
@@ -36,71 +32,80 @@ namespace Engine::Rendering {
 			}
 		}
 
-		mWindow = glfwCreateWindow((int)mWindowData.width, (int)mWindowData.height, mWindowData.title.c_str(), nullptr, nullptr);
+		mWindow = glfwCreateWindow((int)mWindowProperties.width, (int)mWindowProperties.height, mWindowProperties.title.c_str(), nullptr, nullptr);
 
-		mContext = new OpenGlContext(mWindow);
-		mRenderer = Renderer::Create();
+		mContext.reset(new OpenGlContext(mWindow));
+		mRenderer.reset(Renderer::Create());
+		mInput.reset(new Input(this));
 
-		glfwSetWindowUserPointer(mWindow, &mWindowData);
-		SetVSync(true);
+		mWindowProperties.input = mInput;
+
+		glfwSetWindowUserPointer(mWindow, &mWindowProperties);
+		SetVsync(true);
 
 		glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
-			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
-			windowData.windowClosedCallback();
+			properties.input->windowClosedEvent.Fire();
 		});
 
 		glfwSetWindowSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
-			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
-			windowData.width = width;
-			windowData.height = height;
-			windowData.windowResizedCallback(width, height);
+			properties.width = width;
+			properties.height = height;
+			properties.input->windowResizedEvent.Fire();//(width, height);
 		});
 
 		glfwSetKeyCallback(mWindow, [](GLFWwindow* window, int key, int scanCode, int action, int mods) {
-			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
 			switch(action) {
 				case GLFW_PRESS:
-					windowData.keyPressedCallback(key);
+					properties.input->keyPressedEvent.Fire();//(key);
 					break;
 				case GLFW_RELEASE:
-					windowData.keyReleasedCallback(key);
+					properties.input->keyReleasedEvent.Fire();//(key);
 					break;
 				case GLFW_REPEAT:
-					windowData.keyRepeatedCallback(key);
+					properties.input->keyRepeatedEvent.Fire();//(key);
 					break;
 			};
 		});
 
 		glfwSetMouseButtonCallback(mWindow, [](GLFWwindow* window, int button, int action, int mods) {
-			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
 			switch(action) {
 				case GLFW_PRESS:
-					windowData.mouseButtonPressedCallback(button);
+					properties.input->mouseButtonPressedEvent.Fire();//(button);
 					break;
 				case GLFW_RELEASE:
-					windowData.mouseButtonReleasedCallback(button);
+					properties.input->mouseButtonReleasedEvent.Fire();//(button);
 					break;
 			}
 		});
 
 		glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double x, double y) {
-			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
-			windowData.mouseMovedCallback(x, y);
+			properties.input->mouseMovedEvent.Fire();//(x, y);
 		});
 
 		glfwSetScrollCallback(mWindow, [](GLFWwindow* window, double x, double y) {
-			OpenGlWindowData& windowData = *(OpenGlWindowData*)glfwGetWindowUserPointer(window);
+			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
-			windowData.mouseScrolledCallback(x, y);
+			properties.input->mouseScrolledEvent.Fire();//(x, y);
+		});
+
+		mWindowProperties.input->windowClosedEvent.Connect([&]() {
+			Running = false;
+
+			return false;
 		});
 	}
 
-	void OpenGlWindow::Update() {
+	void OpenGlWindow::UpdateRenderer() {
 		glfwMakeContextCurrent(mWindow);
 
 		glfwPollEvents();
@@ -108,14 +113,14 @@ namespace Engine::Rendering {
 	};
 
 
-	void OpenGlWindow::SetVSync(bool enabled) {
+	void OpenGlWindow::SetVsync(bool enabled) {
 		if(enabled) {
 			glfwSwapInterval(1);
 		} else {
 			glfwSwapInterval(0);
 		}
 
-		mWindowData.vSync = enabled;
+		mWindowProperties.vSync = enabled;
 	};
 
 }

@@ -1,21 +1,21 @@
 #pragma once
 
-namespace Engine::Input {
+namespace Engine {
 
-	enum class MouseCode {
-		MOUSE_BUTTON_1 = 0,
-		MOUSE_BUTTON_2 = 1,
-		MOUSE_BUTTON_3 = 2,
-		MOUSE_BUTTON_4 = 3,
-		MOUSE_BUTTON_5 = 4,
-		MOUSE_BUTTON_6 = 5,
-		MOUSE_BUTTON_7 = 6,
-		MOUSE_BUTTON_8 = 7,
+	enum class MouseButton {
+		MOUSE_1 = 0,
+		MOUSE_2 = 1,
+		MOUSE_3 = 2,
+		MOUSE_4 = 3,
+		MOUSE_5 = 4,
+		MOUSE_6 = 5,
+		MOUSE_7 = 6,
+		MOUSE_8 = 7,
 		
-		MOUSE_BUTTON_LAST = MOUSE_BUTTON_8,
-		MOUSE_BUTTON_LEFT = MOUSE_BUTTON_1,
-		MOUSE_BUTTON_RIGHT = MOUSE_BUTTON_2,
-		MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3,
+		MOUSE_LAST = MOUSE_8,
+		MOUSE_LEFT = MOUSE_1,
+		MOUSE_RIGHT = MOUSE_2,
+		MOUSE_MIDDLE = MOUSE_3,
 	};
 
 }

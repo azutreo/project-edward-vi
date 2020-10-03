@@ -1,22 +1,21 @@
-#pragma once
 #include "engine_precompiled/engine_precompiled.hpp"
 
-#include "events/event_application_updated.hpp"
+#include "events/event_window_updated.hpp"
 
-namespace Engine::Events {
+namespace Engine {
 
-	void ApplicationUpdatedEvent::Fire(double deltaTime) {
+	void WindowUpdatedEvent::Fire(double deltaTime) {
 		for(Function function : mConnections) {
 			bool handled = function(deltaTime);
 			if(handled) { return; }
 		}
 	};
 
-	void ApplicationUpdatedEvent::Connect(const Function& function) {
+	void WindowUpdatedEvent::Connect(const Function& function) {
 		mConnections.push_back(function);
 	};
 
-	void ApplicationUpdatedEvent::Disconnect(const Function& function) {
+	void WindowUpdatedEvent::Disconnect(const Function& function) {
 		/*std::vector<Function>::iterator toRemove = Connections.begin();
 		for(Connections.begin(); toRemove != Connections.end(); ++toRemove) {
 			if(*(*toRemove) == function) {
