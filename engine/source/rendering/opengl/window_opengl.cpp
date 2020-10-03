@@ -46,7 +46,7 @@ namespace Engine {
 		glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
 			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
-			properties.input->windowClosedEvent.Fire();
+			properties.input->GetWindow()->windowClosedEvent.Fire();
 		});
 
 		glfwSetWindowSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
@@ -54,7 +54,7 @@ namespace Engine {
 
 			properties.width = width;
 			properties.height = height;
-			properties.input->windowResizedEvent.Fire();//(width, height);
+			properties.input->GetWindow()->windowResizedEvent.Fire(width, height);
 		});
 
 		glfwSetKeyCallback(mWindow, [](GLFWwindow* window, int key, int scanCode, int action, int mods) {
@@ -98,8 +98,8 @@ namespace Engine {
 			properties.input->mouseScrolledEvent.Fire();//(x, y);
 		});
 
-		mWindowProperties.input->windowClosedEvent.Connect([&]() {
-			Running = false;
+		mWindowProperties.input->GetWindow()->windowClosedEvent.Connect([&]() {
+			running = false;
 
 			return false;
 		});

@@ -11,7 +11,7 @@ namespace Engine {
 		double deltaTime = duration.count() * 1e-6;
 
 		UpdateRenderer();
-		UpdatedEvent.Fire(deltaTime);
+		windowUpdatedEvent.Fire(deltaTime);
 
 		mRunningTime = end;
 	}

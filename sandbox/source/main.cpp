@@ -54,13 +54,13 @@ int main(int argc, char** argv) {
 	std::shared_ptr<Engine::Renderer> renderer = window->GetRenderer();
 	std::shared_ptr<Engine::Input> input = window->GetInput();
 
-	Engine::Camera mCamera(-1.6f, 1.6f, -0.9f, 0.9f);
+	Engine::Camera mCamera(window);
 
 	float squareMoveSpeed = 2.0f;
 
 	Engine::Object square = getSquare();
 
-	window->UpdatedEvent.Connect([=, &renderer, &mCamera, &square](double deltaTime) {
+	window->windowUpdatedEvent.Connect([=, &renderer, &mCamera, &square](double deltaTime) {
 		renderer->SetClearColor(0.05f, 0.05f, 0.075f, 1.0f);
 		renderer->ClearScreen();
 
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
 		return false;
 	});
 
-	while(window->Running) {
+	while(window->running) {
 		window->Update();
 	}
 

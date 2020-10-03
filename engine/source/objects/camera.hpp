@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-#define PI 3.14159f
-
 namespace Engine {
+
+	class Window;
 
 	class Camera {
 		glm::mat4 mProjectionMatrix;
@@ -15,12 +15,17 @@ namespace Engine {
 		glm::vec3 mPosition = { 0, 0, 0 };
 		glm::vec3 mRotation = { 0, 0, 0 };
 
+		Window* mWindow;
+
+		unsigned int mWidth;
+		unsigned int mHeight;
+
 	public:
 		float moveSpeed = 2;
 		float rotateSpeed = 90;
 
 	public:
-		Camera(float left, float right, float bottom, float top);
+		Camera(Window* window);
 
 		inline void SetPosition(const glm::vec3& position) { mPosition = position; CalculateMatrices(); }
 		inline void SetRotation(const glm::vec3& rotation) { mRotation = rotation; CalculateMatrices(); }
@@ -34,6 +39,7 @@ namespace Engine {
 
 	private:
 		void CalculateMatrices();
+		void CalculateProjectionMatrix();
 	};
 
 }

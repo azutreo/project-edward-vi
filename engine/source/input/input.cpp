@@ -7,14 +7,10 @@
 
 #include <GLFW/glfw3.h>
 
-//#define BIND_EVENT(x) std::bind(&x, this)
-
 namespace Engine {
 
 	Input::Input(Window* window) {
 		mWindow = window;
-
-		//keyPressedEvent.Connect(BIND_EVENT(Input::OnKeyPressed));
 	}
 
 	bool Input::IsKeyPressed(const KeyCode& keyCode) {
@@ -28,9 +24,5 @@ namespace Engine {
 		std::cout << "coming soon?" << std::endl;
 		return false;
 	}
-
-	/*bool Input::OnKeyPressed() {
-		return false;
-	}*/
 
 }

@@ -13,8 +13,6 @@ namespace Engine {
 		Window* mWindow;
 
 	public:
-		Event windowClosedEvent;
-		Event windowResizedEvent;
 		Event keyPressedEvent;
 		Event keyReleasedEvent;
 		Event keyRepeatedEvent;
@@ -29,16 +27,7 @@ namespace Engine {
 		bool IsKeyPressed(const KeyCode& keyCode);
 		bool IsMouseButtonPressed(const MouseButton& mouseCode);
 
-	/*private:
-		//bool OnWindowClosed();
-		//bool OnWindowResized();
-		bool OnKeyPressed();
-		//bool OnKeyReleased();
-		//bool OnKeyRepeated();
-		//bool OnMouseButtonPressed();
-		//bool OnMouseButtonReleased();
-		//bool OnMouseMoved();
-		//bool OnMouseScrolled();*/
+		inline Window* GetWindow() const { return mWindow; }
 	};
 
 }

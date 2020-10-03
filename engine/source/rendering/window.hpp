@@ -3,7 +3,9 @@
 #include "rendering/renderer.hpp"
 #include "input/input.hpp"
 
-#include "events/event_window_updated.hpp"
+#include "events/event.hpp"
+#include "events/window/event_window_updated.hpp"
+#include "events/window/event_window_resized.hpp"
 
 #include <iostream>
 #include <thread>
@@ -36,9 +38,11 @@ namespace Engine {
 		std::chrono::steady_clock::time_point mRunningTime = std::chrono::high_resolution_clock::now();
 
 	public:
-		bool Running = true;
+		bool running = true;
 
-		WindowUpdatedEvent UpdatedEvent;
+		WindowUpdatedEvent windowUpdatedEvent;
+		WindowResizedEvent windowResizedEvent;
+		Event windowClosedEvent;
 
 	public:
 		void Update();
