@@ -5,11 +5,11 @@
 int main(int argc, char** argv) {
 	Engine::Client client;
 
-	client.GetWindow()->windowUpdatedEvent.Connect([](double detaTime) {
+	/*client.GetWindow()->windowUpdatedEvent.Connect([](double detaTime) {
 		std::cout << "Updated" << std::endl;
 
 		return false;
-	});
+	});*/
 
 	client.Run();
 
