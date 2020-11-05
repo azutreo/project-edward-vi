@@ -1,53 +1,98 @@
 #pragma once
 
-namespace Engine::Mathematics {
+namespace Engine {
 
+	template <typename Type>
 	class Vector2 {
-
-		double mX;
-		double mY;
-		double mMagnitude;
+		Type mMagnitude = 0;
 
 	public:
+		Type x = 0;
+		Type y = 0;
 
-		Vector2(double x = 0, double y = 0);
-		virtual ~Vector2() = default;
+	public:
+		inline Vector2(Type _x = 0, Type _y = 0)
+		: x(_x), y(_y) {
+			mMagnitude = CalculateMagnitude(x, y);
+		};
 
-		void SetX(double x);
-		void SetY(double y);
+		inline Type GetMagnitude() const { return mMagnitude; }
 
-		inline double GetX() const { return mX; }
-		inline double GetY() const { return mY; }
-		inline double GetMagnitude() const { return mMagnitude; }
+		inline static Type CalculateMagnitude(Type x = 0, Type y = 0) {
+			return std::sqrt(std::pow(x, 2) + std::pow(y, 2));
+		};
 
-		static double CalculateMagnitude(double x, double y);
+		inline Vector2 Add(const Vector2& vector) const {
+			return Vector2(x + vector.x,
+						   y + vector.y);
+		};
+		inline Vector2 Add(Type scalar) const {
+			return Vector2(x + scalar,
+						   y + scalar);
+		};
 
-		Vector2 Add(const Vector2& vector) const;
-		Vector2 Add(double scalar) const;
+		inline Vector2 Subtract(const Vector2& vector) const {
+			return Vector2(x - vector.x,
+						   y - vector.y);
+		};
+		inline Vector2 Subtract(Type scalar) const {
+			return Vector2(x - scalar,
+						   y - scalar);
+		};
 
-		Vector2 Subtract(const Vector2& vector) const;
-		Vector2 Subtract(double scalar) const;
+		inline Vector2 Multiply(const Vector2& vector) const {
+			return Vector2(x * vector.x,
+						   y * vector.y);
+		};
+		inline Vector2 Multiply(Type scalar) const {
+			return Vector2(x * scalar,
+						   y * scalar);
+		};
 
-		Vector2 Multiply(const Vector2& vector) const;
-		Vector2 Multiply(double scalar) const;
+		inline Vector2 Divide(const Vector2& vector) const {
+			return Vector2(x / vector.x,
+						   y / vector.y);
+		};
+		inline Vector2 Divide(Type scalar) const {
+			return Vector2(x / scalar,
+						   y / scalar);
+		};
 
-		Vector2 Divide(const Vector2& vector) const;
-		Vector2 Divide(double scalar) const;
+		inline static Vector2 Add(const Vector2& vector1, const Vector2& Vector2) {
+			return vector1.Add(Vector2);
+		};
+		inline static Vector2 Add(const Vector2& vector, Type scalar) {
+			return vector.Add(scalar);
+		};
 
-		static Vector2 Add(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Add(const Vector2& vector, double scalar);
+		inline static Vector2 Subtract(const Vector2& vector1, const Vector2& Vector2) {
+			return vector1.Subtract(Vector2);
+		};
+		inline static Vector2 Subtract(const Vector2& vector, Type scalar) {
+			return vector.Subtract(scalar);
+		};
 
-		static Vector2 Subtract(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Subtract(const Vector2& vector, double scalar);
+		inline static Vector2 Multiply(const Vector2& vector1, const Vector2& Vector2) {
+			return vector1.Multiply(Vector2);
+		};
+		inline static Vector2 Multiply(const Vector2& vector, Type scalar) {
+			return vector.Multiply(scalar);
+		};
 
-		static Vector2 Multiply(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Multiply(const Vector2& vector, double scalar);
+		inline static Vector2 Divide(const Vector2& vector1, const Vector2& Vector2) {
+			return vector1.Divide(Vector2);
+		};
+		inline static Vector2 Divide(const Vector2& vector, Type scalar) {
+			return vector.Divide(scalar);
+		};
 
-		static Vector2 Divide(const Vector2& vector1, const Vector2& vector2);
-		static Vector2 Divide(const Vector2& vector, double scalar);
-
-		friend std::ostream& operator<<(std::ostream& ostream, const Vector2& vector);
-
+		inline friend std::ostream& operator<<(std::ostream& ostream, const Vector2& vector) {
+			return ostream <<
+				"Vector2:" << std::endl <<
+				"  X: " << vector.x << std::endl <<
+				"  Y: " << vector.y << std::endl <<
+				"  Magnitude: " << vector.mMagnitude;
+		};
 	};
 
 }

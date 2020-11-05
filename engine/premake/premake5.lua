@@ -1,6 +1,7 @@
 group "Dependencies"
 include "../../engine/dependencies/glfw/premake"
 include "../../engine/dependencies/glad/premake"
+include "../../engine/dependencies/stb/stb/premake"
 
 group ""
 
@@ -19,18 +20,23 @@ project "Engine"
 	
 	files {
 		"%{prj.location}/source/**.cpp",
-		"%{prj.location}/source/**.hpp"
+		"%{prj.location}/source/**.hpp",
+		"%{prj.location}/dependencies/glm/glm/**.hpp",
+		"%{prj.location}/dependencies/stb/stb/stb_image.h"
 	}
 	
 	includedirs {
 		"%{prj.location}/source",
 		"%{prj.location}/dependencies/glfw/include",
-		"%{prj.location}/dependencies/glad/include"
+		"%{prj.location}/dependencies/glad/include",
+		"%{prj.location}/dependencies/glm",
+		"%{prj.location}/dependencies/stb"
 	}
 	
 	links {
 		"GLFW",
 		"Glad",
+		"stb",
 		"opengl32.lib",
 	}
 	

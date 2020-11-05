@@ -1,9 +1,7 @@
-#pragma once
 #include "engine_precompiled/engine_precompiled.hpp"
-
 #include "events/event.hpp"
 
-namespace Engine::Events {
+namespace Engine {
 
 	Event::Event(std::string name) :
 		mName(name) {}

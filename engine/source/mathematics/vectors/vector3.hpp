@@ -1,56 +1,108 @@
 #pragma once
 
-namespace Engine::Mathematics {
+namespace Engine {
 
+	template <typename Type>
 	class Vector3 {
-
-		double mX;
-		double mY;
-		double mZ;
-		double mMagnitude;
+		Type mMagnitude = 0;
+		
+	public:
+		Type x = 0;
+		Type y = 0;
+		Type z = 0;
 
 	public:
+		inline Vector3(Type _x = 0, Type _y = 0, Type _z = 0)
+		: x(_x), y(_y), z(_z) {
+			mMagnitude = CalculateMagnitude(_x, _y, _z);
+		};
 
-		Vector3(double x = 0, double y = 0, double z = 0);
-		virtual ~Vector3() = default;
+		inline Type GetMagnitude() const { return mMagnitude; }
 
-		void SetX(double x);
-		void SetY(double y);
-		void SetZ(double z);
+		inline static Type CalculateMagnitude(Type x = 0, Type y = 0, Type z = 0) {
+			return std::sqrt(std::pow(x, 2) + std::pow(y, 2) + std::pow(z, 2));
+		};
 
-		inline double GetX() const { return mX; }
-		inline double GetY() const { return mY; }
-		inline double GetZ() const { return mZ; }
-		inline double GetMagnitude() const { return mMagnitude; }
+		inline Vector3 Add(const Vector3& vector) const {
+			return Vector3(x + vector.x,
+						   y + vector.y,
+						   z + vector.z);
+		};
+		inline Vector3 Add(Type scalar) const {
+			return Vector3(x + scalar,
+						   y + scalar,
+						   z + scalar);
+		};
 
-		static double CalculateMagnitude(double x, double y, double z);
+		inline Vector3 Subtract(const Vector3& vector) const {
+			return Vector3(x - vector.x,
+						   y - vector.y,
+						   z - vector.z);
+		};
+		inline Vector3 Subtract(Type scalar) const {
+			return Vector3(x - scalar,
+						   y - scalar,
+						   z - scalar);
+		};
 
-		Vector3 Add(const Vector3& vector) const;
-		Vector3 Add(double scalar) const;
+		inline Vector3 Multiply(const Vector3& vector) const {
+			return Vector3(x * vector.x,
+						   y * vector.y,
+						   z * vector.z);
+		};
+		inline Vector3 Multiply(Type scalar) const {
+			return Vector3(x * scalar,
+						   y * scalar,
+						   z * scalar);
+		};
 
-		Vector3 Subtract(const Vector3& vector) const;
-		Vector3 Subtract(double scalar) const;
+		inline Vector3 Divide(const Vector3& vector) const {
+			return Vector3(x / vector.x,
+						   y / vector.y,
+						   z / vector.z);
+		};
+		inline Vector3 Divide(Type scalar) const {
+			return Vector3(x / scalar,
+						   y / scalar,
+						   z / scalar);
+		};
 
-		Vector3 Multiply(const Vector3& vector) const;
-		Vector3 Multiply(double scalar) const;
+		inline static Vector3 Add(const Vector3& vector1, const Vector3& vector2) {
+			return vector1.Add(vector2);
+		};
+		inline static Vector3 Add(const Vector3& vector, Type scalar) {
+			return vector.Add(scalar);
+		};
 
-		Vector3 Divide(const Vector3& vector) const;
-		Vector3 Divide(double scalar) const;
+		inline static Vector3 Subtract(const Vector3& vector1, const Vector3& vector2) {
+			return vector1.Subtract(vector2);
+		};
+		inline static Vector3 Subtract(const Vector3& vector, Type scalar) {
+			return vector.Subtract(scalar);
+		};
 
-		static Vector3 Add(const Vector3& vector1, const Vector3& vector2);
-		static Vector3 Add(const Vector3& vector, double scalar);
+		inline static Vector3 Multiply(const Vector3& vector1, const Vector3& vector2) {
+			return vector1.Multiply(vector2);
+		};
+		inline static Vector3 Multiply(const Vector3& vector, Type scalar) {
+			return vector.Multiply(scalar);
+		};
 
-		static Vector3 Subtract(const Vector3& vector1, const Vector3& vector2);
-		static Vector3 Subtract(const Vector3& vector, double scalar);
+		inline static Vector3 Divide(const Vector3& vector1, const Vector3& vector2) {
+			return vector1.Divide(vector2);
+		};
+		inline static Vector3 Divide(const Vector3& vector, Type scalar) {
+			return vector.Divide(scalar);
+		};
 
-		static Vector3 Multiply(const Vector3& vector1, const Vector3& vector2);
-		static Vector3 Multiply(const Vector3& vector, double scalar);
-
-		static Vector3 Divide(const Vector3& vector1, const Vector3& vector2);
-		static Vector3 Divide(const Vector3& vector, double scalar);
-
-		friend std::ostream& operator<<(std::ostream& ostream, const Vector3& vector);
-
+		inline friend std::ostream& operator<<(std::ostream& ostream, const Vector3& vector) {
+			return ostream <<
+				"Vector3:" << std::endl <<
+				"  X: " << vector.x << std::endl <<
+				"  Y: " << vector.y << std::endl <<
+				"  Z: " << vector.z << std::endl <<
+				"  Magnitude: " << vector.mMagnitude;
+		};
 	};
 
 }

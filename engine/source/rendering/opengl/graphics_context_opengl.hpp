@@ -4,19 +4,16 @@
 
 struct GLFWwindow;
 
-namespace Engine::Renderer {
+namespace Engine {
 
 	class OpenGlContext : public GraphicsContext {
-
 		GLFWwindow* mWindow;
 
 	public:
-
 		OpenGlContext(GLFWwindow* window);
 		~OpenGlContext();
 
 		void SwapBuffers() override;
-
 	};
 
 }

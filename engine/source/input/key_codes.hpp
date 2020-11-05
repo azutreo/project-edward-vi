@@ -1,9 +1,8 @@
 #pragma once
 
-namespace Engine::Input {
+namespace Engine {
 
 	enum class KeyCode {
-
 		KEY_UNKNOWN = -1,
 
 		KEY_SPACE = 32,
@@ -127,7 +126,6 @@ namespace Engine::Input {
 		KEY_RIGHT_ALT = 346,
 		KEY_RIGHT_SUPER = 347,
 		KEY_MENU = 348,
-
 	};
 
 }

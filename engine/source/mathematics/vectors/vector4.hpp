@@ -1,59 +1,118 @@
 #pragma once
 
-namespace Engine::Mathematics {
+namespace Engine {
 
+	template <typename Type>
 	class Vector4 {
-
-		double mX;
-		double mY;
-		double mZ;
-		double mA;
-		double mMagnitude;
+		Type mMagnitude = 0;
 
 	public:
+		Type x = 0;
+		Type y = 0;
+		Type z = 0;
+		Type a = 0;
 
-		Vector4(double x = 0, double y = 0, double z = 0, double a = 0);
-		virtual ~Vector4() = default;
+	public:
+		inline Vector4(Type x = 0, Type y = 0, Type z = 0, Type a = 0)
+		: x(_x), y(_y), z(_z), a(_a) {
+			mMagnitude = CalculateMagnitude(_x, _y, _z, _a);
+		};
 
-		void SetX(double x);
-		void SetY(double y);
-		void SetZ(double z);
-		void SetA(double a);
+		inline Type GetMagnitude() const { return mMagnitude; }
 
-		inline double GetX() const { return mX; }
-		inline double GetY() const { return mY; }
-		inline double GetZ() const { return mZ; }
-		inline double GetA() const { return mA; }
-		inline double GetMagnitude() const { return mMagnitude; }
+		inline static Type CalculateMagnitude(Type x = 0, Type y = 0, Type z = 0, Type a = 0) {
+			return std::sqrt(std::pow(x, 2) + std::pow(y, 2) + std::pow(z, 2));
+		};
 
-		static double CalculateMagnitude(double x, double y, double z, double a);
+		inline Vector4 Add(const Vector4& vector) const {
+			return Vector4(x + vector.x,
+						   y + vector.y,
+						   z + vector.z,
+						   a + vector.a);
+		};
+		inline Vector4 Add(Type scalar) const {
+			return Vector4(x + scalar,
+						   y + scalar,
+						   z + scalar,
+						   a + scalar);
+		};
 
-		Vector4 Add(const Vector4& vector) const;
-		Vector4 Add(double scalar) const;
+		inline Vector4 Subtract(const Vector4& vector) const {
+			return Vector4(x - vector.x,
+						   y - vector.y,
+						   z - vector.z,
+						   a - vector.a);
+		};
+		inline Vector4 Subtract(Type scalar) const {
+			return Vector4(x - scalar,
+						   y - scalar,
+						   z - scalar,
+						   a - scalar);
+		};
 
-		Vector4 Subtract(const Vector4& vector) const;
-		Vector4 Subtract(double scalar) const;
+		inline Vector4 Multiply(const Vector4& vector) const {
+			return Vector4(x * vector.x,
+						   y * vector.y,
+						   z * vector.z,
+						   a * vector.a);
+		};
+		inline Vector4 Multiply(Type scalar) const {
+			return Vector4(x * scalar,
+						   y * scalar,
+						   z * scalar,
+						   a * scalar);
+		};
 
-		Vector4 Multiply(const Vector4& vector) const;
-		Vector4 Multiply(double scalar) const;
+		inline Vector4 Divide(const Vector4& vector) const {
+			return Vector4(x / vector.x,
+						   y / vector.y,
+						   z / vector.z,
+						   a / vector.z);
+		};
+		inline Vector4 Divide(Type scalar) const {
+			return Vector4(x / scalar,
+						   y / scalar,
+						   z / scalar,
+						   a / scalar);
+		};
 
-		Vector4 Divide(const Vector4& vector) const;
-		Vector4 Divide(double scalar) const;
+		inline static Vector4 Add(const Vector4& vector1, const Vector4& vector2) {
+			return vector1.Add(vector2);
+		};
+		inline static Vector4 Add(const Vector4& vector, Type scalar) {
+			return vector.Add(scalar);
+		};
 
-		static Vector4 Add(const Vector4& vector1, const Vector4& vector2);
-		static Vector4 Add(const Vector4& vector, double scalar);
+		inline static Vector4 Subtract(const Vector4& vector1, const Vector4& vector2) {
+			return vector1.Subtract(vector2);
+		};
+		inline static Vector4 Subtract(const Vector4& vector, Type scalar) {
+			return vector.Subtract(scalar);
+		};
 
-		static Vector4 Subtract(const Vector4& vector1, const Vector4& vector2);
-		static Vector4 Subtract(const Vector4& vector, double scalar);
+		inline static Vector4 Multiply(const Vector4& vector1, const Vector4& vector2) {
+			return vector1.Multiply(vector2);
+		};
+		inline static Vector4 Multiply(const Vector4& vector, Type scalar) {
+			return vector.Multiply(scalar);
+		};
 
-		static Vector4 Multiply(const Vector4& vector1, const Vector4& vector2);
-		static Vector4 Multiply(const Vector4& vector, double scalar);
+		inline static Vector4 Divide(const Vector4& vector1, const Vector4& vector2) {
+			return vector1.Divide(vector2);
+		};
+		inline static Vector4 Divide(const Vector4& vector, Type scalar) {
+			return vector.Divide(scalar);
+		};
 
-		static Vector4 Divide(const Vector4& vector1, const Vector4& vector2);
-		static Vector4 Divide(const Vector4& vector, double scalar);
-
-		friend std::ostream& operator<<(std::ostream& ostream, const Vector4& vector);
-
+		inline friend std::ostream& operator<<(std::ostream& ostream, const Vector4& vector) {
+			return ostream <<
+				"Vector4:" << std::endl <<
+				"  X: " << vector.x << std::endl <<
+				"  Y: " << vector.y << std::endl <<
+				"  Z: " << vector.z << std::endl <<
+				"  A: " << vector.a << std::endl <<
+				"  Magnitude: " << vector.mMagnitude;
+		};
 	};
 
 }

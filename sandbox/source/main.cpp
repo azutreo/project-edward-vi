@@ -1,41 +1,17 @@
-#pragma once
 #include "precompiled/precompiled.hpp"
 
-#include "mathematics/vectors/vector2.hpp"
-#include "application/application.hpp"
-
-#include <thread>
-
-/*#include <math.h>
-
-double GRAVITY = -9.8;*/
+#include "client.hpp"
 
 int main(int argc, char** argv) {
-	Engine::Mathematics::Vector2 position(0, 0);
-	Engine::Mathematics::Vector2 velocity(10, 100);
+	Engine::Client client;
 
-	Engine::Application* application = new Engine::Application();
-
-	/*application->Updated.Connect([&](double deltaTime) {
-		double yVelocity = velocity.GetY() + (GRAVITY * deltaTime);
-		velocity.SetY(yVelocity);
-
-		double xPosition = position.GetX() + (velocity.GetX() * deltaTime);
-		double yPosition = position.GetY() + (velocity.GetY() * deltaTime);
-		position.SetX(xPosition);
-		position.SetY(yPosition);
-
-		if(position.GetY() <= 0) {
-			velocity.SetY(std::abs(yVelocity));
-		}
-
-		printf("p(%i, %i) v(%i, %i)\n", (int)position.GetX(), (int)position.GetY(), (int)velocity.GetX(), (int)velocity.GetY());
+	client.GetWindow()->windowUpdatedEvent.Connect([](double detaTime) {
+		std::cout << "Updated" << std::endl;
 
 		return false;
-	});*/
+	});
 
-	application->Run();
-	delete application;
+	client.Run();
 
 	return 0;
 }
