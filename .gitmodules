@@ -7,6 +7,6 @@
 [submodule "engine/dependencies/stb"]
 	path = engine/dependencies/stb
 	url = https://github.com/nicholasforeman/stb
-[submodule "glad"]
-	path = glad
+[submodule "engine/dependencies/glad"]
+	path = engine/dependencies/glad
 	url = https://github.com/nicholasforeman/glad
