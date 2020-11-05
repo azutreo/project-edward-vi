@@ -8,39 +8,31 @@
 
 namespace Engine {
 
-	Camera::Camera(Window* window) {
-		mWindow = window;
-		mWidth = mWindow->GetWidth();
-		mHeight = mWindow->GetHeight();
+	CameraData::CameraData(unsigned int _width, unsigned int _height, glm::vec3 position, glm::vec3 rotation)
+	: width(_width), height(_height) {
+		CalculateMatrices(position, rotation);
+	}
+
+	void CameraData::CalculateProjectionMatrix() {
+		float pWidth = width / 1000.0f;
+		float pHeight = height / 1000.0f;
+
+		projectionMatrix = glm::ortho(-pWidth, pWidth, -pHeight, pHeight, -1.0f, 1.0f);
+	}
+
+	void CameraData::CalculateMatrices(glm::vec3 position, glm::vec3 rotation) {
+		glm::mat4 transform =
+			glm::translate(glm::mat4(1.0f), position) *
+			glm::rotate(glm::mat4(1.0f), rotation.z, glm::vec3(0, 0, 1));
 
 		CalculateProjectionMatrix();
-		CalculateMatrices();
-
-		/*window->windowResizedEvent.Connect([&](unsigned int width, unsigned int height) {
-			mWidth = mWindow->GetWidth();
-			mHeight = mWindow->GetHeight();
-
-			CalculateProjectionMatrix();
-			CalculateMatrices();
-
-			return false;
-		});*/
+		viewMatrix = glm::inverse(transform);
+		viewProjectionMatrix = projectionMatrix * viewMatrix;
 	}
 
-	void Camera::CalculateProjectionMatrix() {
-		float width = mWidth / 1000.0f;
-		float height = mHeight / 1000.0f;
+	Camera::Camera(unsigned int width, unsigned int height)
+	: mWindowWidth(width), mWindowHeight(height), data(mWindowWidth, mWindowHeight, mPosition, mRotation) {
 
-		mProjectionMatrix = glm::ortho(-width, width, -height, height, -1.0f, 1.0f);
-	}
-
-	void Camera::CalculateMatrices() {
-		glm::mat4 transform =
-			glm::translate(glm::mat4(1.0f), mPosition) *
-			glm::rotate(glm::mat4(1.0f), mRotation.z, glm::vec3(0, 0, 1));
-
-		mViewMatrix = glm::inverse(transform);
-		mViewProjectionMatrix = mProjectionMatrix * mViewMatrix;
 	}
 
 }

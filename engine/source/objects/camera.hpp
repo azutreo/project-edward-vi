@@ -5,41 +5,45 @@
 
 namespace Engine {
 
-	class Window;
+	struct CameraData {
+		glm::mat4 projectionMatrix;
+		glm::mat4 viewMatrix;
+		glm::mat4 viewProjectionMatrix;
+
+		unsigned int width;
+		unsigned int height;
+
+		CameraData(unsigned int _width = 0, unsigned int _height = 0, glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 });
+
+		void CalculateMatrices(glm::vec3 position, glm::vec3 rotation);
+		void CalculateProjectionMatrix();
+	};
 
 	class Camera {
-		glm::mat4 mProjectionMatrix;
-		glm::mat4 mViewMatrix;
-		glm::mat4 mViewProjectionMatrix;
-
 		glm::vec3 mPosition = { 0, 0, 0 };
 		glm::vec3 mRotation = { 0, 0, 0 };
 
-		Window* mWindow;
+		unsigned int mWindowWidth = 0;
+		unsigned int mWindowHeight = 0;
 
-		unsigned int mWidth;
-		unsigned int mHeight;
+		CameraData data;
 
 	public:
 		float moveSpeed = 2;
 		float rotateSpeed = 90;
 
 	public:
-		Camera(Window* window);
+		Camera(unsigned int width, unsigned int height);
 
-		inline void SetPosition(const glm::vec3& position) { mPosition = position; CalculateMatrices(); }
-		inline void SetRotation(const glm::vec3& rotation) { mRotation = rotation; CalculateMatrices(); }
+		inline void SetPosition(const glm::vec3& position) { mPosition = position; data.CalculateMatrices(mPosition, mRotation); }
+		inline void SetRotation(const glm::vec3& rotation) { mRotation = rotation; data.CalculateMatrices(mPosition, mRotation); }
 
 		inline const glm::vec3& GetPosition() const { return mPosition; }
 		inline const glm::vec3& GetRotation() const { return mRotation; }
 
-		inline const glm::mat4& GetProjectionMatrix() const { return mProjectionMatrix; }
-		inline const glm::mat4& GetViewMatrix() const { return mViewMatrix; }
-		inline const glm::mat4& GetViewProjectionMatrix() const { return mViewProjectionMatrix; }
-
-	private:
-		void CalculateMatrices();
-		void CalculateProjectionMatrix();
+		inline const glm::mat4& GetProjectionMatrix() const { return data.projectionMatrix; }
+		inline const glm::mat4& GetViewMatrix() const { return data.viewMatrix; }
+		inline const glm::mat4& GetViewProjectionMatrix() const { return data.viewProjectionMatrix; }
 	};
 
 }

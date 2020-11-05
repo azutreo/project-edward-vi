@@ -17,7 +17,7 @@ namespace Engine {
 		void SetClearColor(float r, float g, float b, float a) override;
 		void ClearScreen() override;
 
-		void StartScene(const Camera& camera) override;
+		void StartScene(const std::shared_ptr<Engine::Camera>& camera) override;
 		void EndScene() override;
 
 		void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, glm::mat4 transform = glm::mat4(1.0f)) override;

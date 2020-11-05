@@ -16,6 +16,9 @@
 	=============
 	EXAMPLE USAGE
 	=============
+
+	std::bind<bool>(&Class::OnEvent, this, std::placeholders::_1)
+	std::bind<bool>(OnEvent, std::placeholders::_1)
 */
 
 namespace Engine {
