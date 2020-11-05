@@ -1,5 +1,4 @@
 #include "engine_precompiled/engine_precompiled.hpp"
-
 #include "events/event.hpp"
 
 namespace Engine {

@@ -6,7 +6,6 @@
 namespace Engine {
 
 	Renderer* Renderer::Create() {
-		// :TODO: Switch
 		return new OpenGlRenderer();
 	}
 

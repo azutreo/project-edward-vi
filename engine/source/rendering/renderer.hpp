@@ -20,6 +20,7 @@ namespace Engine {
 	class Renderer {
 
 	protected:
+		ShaderLibrary* mShaderLibrary;
 		SceneData* mSceneData;
 
 	public:
@@ -32,6 +33,8 @@ namespace Engine {
 		virtual void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, glm::mat4 transform = glm::mat4(1.0f)) = 0;
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
+
+		inline ShaderLibrary* GetShaderLibrary() { return mShaderLibrary; }
 
 		static Renderer* Create();
 	};

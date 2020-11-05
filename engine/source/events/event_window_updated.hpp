@@ -9,10 +9,10 @@ namespace Engine {
 		std::vector<Function> mConnections;
 
 	public:
-		virtual void Fire(double deltaTime);
+		void Fire(double deltaTime);
 
-		virtual void Connect(const Function& function);
-		virtual void Disconnect(const Function& function);
+		void Connect(const Function& function);
+		void Disconnect(const Function& function);
 	};
 
 }

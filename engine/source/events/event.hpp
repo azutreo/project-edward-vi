@@ -31,10 +31,10 @@ namespace Engine {
 
 		inline const std::string& GetName() const { return mName; };
 
-		virtual void Fire(); // If there are arguments, put them in the ()
+		void Fire(); // If there are arguments, put them in the ()
 
-		virtual void Connect(const Function& function);
-		virtual void Disconnect(const Function& function);
+		void Connect(const Function& function);
+		void Disconnect(const Function& function);
 
 		friend std::ostream& operator<<(std::ostream& ostream, const Event& event);
 	};

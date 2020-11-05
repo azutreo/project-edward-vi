@@ -3,6 +3,8 @@
 #include "mathematics/vectors/vector2.hpp"
 #include "mathematics/vectors/vector3.hpp"
 #include "rendering/window.hpp"
+#include "rendering/texture.hpp"
+#include "rendering/shader.hpp"
 
 #include "objects/object.hpp"
 #include "objects/camera.hpp"
@@ -13,39 +15,22 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <fstream>
 #include <string>
 
-Engine::Object getSquare() {
-	float vertices[(3 + 4) * 4 * 1] = { // square
-				   -0.5f, -0.5f,  0.0f,  0.1f,  0.1f,  0.1f,  1.0f, // 0 back bottom left
-					0.5f, -0.5f,  0.0f,  0.3f,  0.3f,  0.3f,  1.0f, // 1 back bottom right
-					0.5f,  0.5f,  0.0f,  0.5f,  0.5f,  0.5f,  1.0f, // 2 back top right
-				   -0.5f,  0.5f,  0.0f,  0.7f,  0.7f,  0.7f,  1.0f, // 3 back top left
-
-				   /*-0.5f, -0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 0 front bottom left
-					0.5f, -0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 1 front bottom right
-					0.5f,  0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 2 front top right
-				   -0.5f,  0.5f,  0.0f,  0.8f,  0.8f,  0.8f,  1.0f, // 3 front top left*/
+Engine::Object CreateSquare(std::shared_ptr<Engine::Shader> shader) {
+	float vertices[(3 + 2) * 4 * 1] = { // square
+				   -0.25f, -0.25f,  0.0f,  0.0f,  0.0f, // 0 back bottom left
+					0.25f, -0.25f,  0.0f,  1.0f,  0.0f, // 1 back bottom right
+					0.25f,  0.25f,  0.0f,  1.0f,  1.0f, // 2 back top right
+				   -0.25f,  0.25f,  0.0f,  0.0f,  1.0f, // 3 back top left
 	};
 	unsigned int indices[6] = { 0, 1, 3, 1, 2, 3 };
 	Engine::BufferLayout layout = {
 		{ Engine::ShaderDataType::FLOAT3, "Position" },
-		{ Engine::ShaderDataType::FLOAT4, "Color" },
+		{ Engine::ShaderDataType::FLOAT2, "TextureCoordinate" },
 	};
 
-	std::ifstream vertexSource("../content/content/shaders/test.vert.glsl");
-	std::string vertexSourceContent((std::istreambuf_iterator<char>(vertexSource)),
-									(std::istreambuf_iterator<char>()));
-
-	std::ifstream fragmentSource("../content/content/shaders/test.frag.glsl");
-	std::string fragmentSourceContent((std::istreambuf_iterator<char>(fragmentSource)),
-										(std::istreambuf_iterator<char>()));
-
-	std::shared_ptr<Engine::Shader> shader;
-	shader.reset(Engine::Shader::Create(vertexSourceContent, fragmentSourceContent));
-
-	return Engine::Object("Square", vertices, sizeof(vertices), indices, sizeof(indices) / sizeof(uint32_t), shader, &layout);
+	return Engine::Object("Square", vertices, sizeof(vertices), indices, sizeof(indices) / sizeof(uint32_t), shader, &layout, "../content/images/nicholas.jpeg");
 }
 
 int main(int argc, char** argv) {
@@ -58,15 +43,22 @@ int main(int argc, char** argv) {
 
 	float squareMoveSpeed = 2.0f;
 
-	Engine::Object square = getSquare();
+	std::shared_ptr<Engine::Shader> shader = renderer->GetShaderLibrary()->LoadShader("../content/shaders/texture.glsl");
+	Engine::Object square = CreateSquare(shader);
+	Engine::Object square2 = CreateSquare(shader);
 
-	window->windowUpdatedEvent.Connect([=, &renderer, &mCamera, &square](double deltaTime) {
+	window->windowUpdatedEvent.Connect([=, &renderer, &mCamera, &square, &square2](double deltaTime) {
 		renderer->SetClearColor(0.05f, 0.05f, 0.075f, 1.0f);
 		renderer->ClearScreen();
 
 		renderer->StartScene(mCamera);
 		{ // :TODO: For each object in the scene
+			glm::mat4 transform2 = glm::translate(glm::mat4(1.0f), square2.GetPosition());
+			square2.GetTexture()->Bind();
+			renderer->Submit(square2.GetVertexArray(), square2.GetShader(), transform2);
+
 			glm::mat4 transform = glm::translate(glm::mat4(1.0f), square.GetPosition());
+			square.GetTexture()->Bind();
 			renderer->Submit(square.GetVertexArray(), square.GetShader(), transform);
 		}
 		renderer->EndScene();

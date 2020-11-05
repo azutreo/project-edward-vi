@@ -15,6 +15,7 @@ namespace Engine {
 		mWindowProperties.title = properties.title;
 		mWindowProperties.width = properties.width;
 		mWindowProperties.height = properties.height;
+		mWindowProperties.vSync = properties.vSync;
 
 		Initialize();
 	};
@@ -41,7 +42,7 @@ namespace Engine {
 		mWindowProperties.input = mInput;
 
 		glfwSetWindowUserPointer(mWindow, &mWindowProperties);
-		SetVsync(true);
+		SetVsync(mWindowProperties.vSync);
 
 		glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
 			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);

@@ -12,6 +12,8 @@
 namespace Engine {
 
 	struct OpenGlRenderer : public Renderer {
+		OpenGlRenderer();
+
 		void SetClearColor(float r, float g, float b, float a) override;
 		void ClearScreen() override;
 

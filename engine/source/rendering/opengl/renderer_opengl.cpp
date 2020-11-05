@@ -5,6 +5,8 @@
 #include "rendering/opengl/buffer_opengl.hpp"
 #include "rendering/opengl/shader_opengl.hpp"
 
+#include "rendering/shader.hpp"
+
 #include "objects/camera.hpp"
 
 #include "glm/glm.hpp"
@@ -13,6 +15,12 @@
 #include <GLFW/glfw3.h>
 
 namespace Engine {
+
+	OpenGlRenderer::OpenGlRenderer() {
+		mShaderLibrary = new ShaderLibrary();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
 
 	void OpenGlRenderer::SetClearColor(float red, float green, float blue, float alpha) {
 		glClearColor((GLfloat)red, (GLfloat)green, (GLfloat)blue, (GLfloat)alpha);
@@ -25,6 +33,9 @@ namespace Engine {
 	void OpenGlRenderer::StartScene(const Camera& camera) {
 		mSceneData = new SceneData();
 		mSceneData->viewProjectionMatrix = camera.GetViewProjectionMatrix();
+		////////////////////////////
+		// :TODO: Start the queue //
+		////////////////////////////
 	}
 
 	void OpenGlRenderer::EndScene() {
@@ -37,8 +48,8 @@ namespace Engine {
 	void OpenGlRenderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, glm::mat4 transform) {
 		// :TODO: Add to queue, then draw once everything has been added
 		shader->Bind();
-		shader->UploadUniformMat4("u_ViewProjection", mSceneData->viewProjectionMatrix);
-		shader->UploadUniformMat4("u_Transform", transform);
+		shader->UploadUniformMat4f("ViewProjection", mSceneData->viewProjectionMatrix);
+		shader->UploadUniformMat4f("Transform", transform);
 
 		vertexArray->Bind();
 		DrawIndexed(vertexArray);
