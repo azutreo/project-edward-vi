@@ -53,11 +53,13 @@ namespace Engine {
 		std::shared_ptr<Shader> shader = mRenderer->GetShaderLibrary()->LoadShader("../content/shaders/texture.glsl");
 		mSquare = CreateSquare(shader);
 
-		auto f = std::bind<bool>(&Client::OnUpdate, this, std::placeholders::_1);
-		mWindow->windowUpdatedEvent.Connect(f);
+		mWindow->windowUpdatedEvent.Connect(std::bind<bool>(&Client::OnUpdate, this, std::placeholders::_1));
+		mWindow->windowResizedEvent.Connect(std::bind<bool>(&Client::OnWindowResized, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	bool Client::OnUpdate(double deltaTime) {
+		if(mWindow->minimized) { return false; }
+
 		mRenderer->SetClearColor(0.05f, 0.05f, 0.075f, 1.0f);
 		mRenderer->ClearScreen();
 
@@ -72,6 +74,22 @@ namespace Engine {
 		mRenderer->EndScene();
 
 		mCameraController->OnUpdate(deltaTime);
+
+		return false;
+	}
+
+	bool Client::OnWindowResized(unsigned int width, unsigned int height) {
+		if(width == 0 || height == 0) {
+			mWindow->minimized = true;
+
+			return false;
+		} else {
+			mWindow->minimized = false;
+		}
+
+		mWindow->SetWidth(width);
+		mWindow->SetHeight(height);
+		mRenderer->SetViewportSize(0, 0, width, height);
 
 		return false;
 	}

@@ -96,7 +96,7 @@ namespace Engine {
 		glfwSetScrollCallback(mWindow, [](GLFWwindow* window, double x, double y) {
 			WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
 
-			properties.input->mouseScrolledEvent.Fire();//(x, y);
+			properties.input->mouseScrolledEvent.Fire(x, y);
 		});
 
 		mWindowProperties.input->GetWindow()->windowClosedEvent.Connect([&]() {

@@ -23,6 +23,8 @@ namespace Engine {
 
 		inline unsigned int GetWidth() const override { return mWindowProperties.width; };
 		inline unsigned int GetHeight() const override { return mWindowProperties.height; };
+		inline void SetWidth(unsigned int width) override { mWindowProperties.width = width; };
+		inline void SetHeight(unsigned int height) override { mWindowProperties.height = height; };
 
 		inline bool IsVsync() const override { return mWindowProperties.vSync; };
 		void SetVsync(bool enabled) override;

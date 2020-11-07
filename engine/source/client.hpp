@@ -23,9 +23,12 @@ namespace Engine {
 		void Run();
 
 		inline Window* GetWindow() { return mWindow; }
+		inline std::shared_ptr<Renderer> GetRenderer() { return mRenderer; }
+		inline std::shared_ptr<Input> GetInput() { return mInput; }
 
 	private:
 		bool OnUpdate(double deltaTime);
+		bool OnWindowResized(unsigned int width, unsigned int height);
 	};
 
 }

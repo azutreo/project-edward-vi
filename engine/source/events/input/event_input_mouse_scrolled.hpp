@@ -4,12 +4,12 @@
 
 namespace Engine {
 
-	class WindowUpdatedEvent : public Event {
-		using Function = std::function<bool(double)>;
+	class MouseScrolledEvent : public Event {
+		using Function = std::function<bool(double, double)>;
 		std::vector<Function> mConnections;
 
 	public:
-		void Fire(double deltaTime);
+		void Fire(double x, double y);
 
 		void Connect(const Function& function);
 		void Disconnect(const Function& function);

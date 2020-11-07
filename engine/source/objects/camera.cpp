@@ -8,19 +8,19 @@
 
 namespace Engine {
 
-	CameraData::CameraData(unsigned int _width, unsigned int _height, glm::vec3 position, glm::vec3 rotation)
-	: width(_width), height(_height) {
-		CalculateMatrices(position, rotation);
+	CameraData::CameraData(unsigned int _width, unsigned int _height, glm::vec3 _position, glm::vec3 _rotation, float zoomLevel)
+	: width(_width), height(_height), position(_position), rotation(_rotation), zoom(zoomLevel) {
+		CalculateMatrices();
 	}
 
 	void CameraData::CalculateProjectionMatrix() {
 		float pWidth = width / 1000.0f;
 		float pHeight = height / 1000.0f;
 
-		projectionMatrix = glm::ortho(-pWidth, pWidth, -pHeight, pHeight, -1.0f, 1.0f);
+		projectionMatrix = glm::ortho(-pWidth * zoom, pWidth * zoom, -pHeight * zoom, pHeight * zoom, -zoom, zoom);
 	}
 
-	void CameraData::CalculateMatrices(glm::vec3 position, glm::vec3 rotation) {
+	void CameraData::CalculateMatrices() {
 		glm::mat4 transform =
 			glm::translate(glm::mat4(1.0f), position) *
 			glm::rotate(glm::mat4(1.0f), rotation.z, glm::vec3(0, 0, 1));
@@ -31,7 +31,7 @@ namespace Engine {
 	}
 
 	Camera::Camera(unsigned int width, unsigned int height)
-	: mWindowWidth(width), mWindowHeight(height), data(mWindowWidth, mWindowHeight, mPosition, mRotation) {
+	: mData(width, height, mPosition, mRotation) {
 
 	}
 

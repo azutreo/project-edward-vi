@@ -27,6 +27,8 @@ namespace Engine {
 		virtual void SetClearColor(float r, float g, float b, float a) = 0;
 		virtual void ClearScreen() = 0;
 
+		virtual void SetViewportSize(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
+
 		virtual void StartScene(const std::shared_ptr<Engine::Camera>& camera) = 0;
 		virtual void EndScene() = 0;
 

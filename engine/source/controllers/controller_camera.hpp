@@ -14,7 +14,9 @@ namespace Engine {
 	public:
 		CameraController(std::shared_ptr<Engine::Camera>, std::shared_ptr<Engine::Input> input);
 
-		void OnUpdate(float deltaTime);
+		bool OnUpdate(float deltaTime);
+		bool OnMouseScrolled(double x, double y);
+		bool OnWindowResized(unsigned int width, unsigned int height);
 	};
 
 }

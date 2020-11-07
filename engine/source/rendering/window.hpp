@@ -39,6 +39,7 @@ namespace Engine {
 
 	public:
 		bool running = true;
+		bool minimized = false;
 
 		WindowUpdatedEvent windowUpdatedEvent;
 		WindowResizedEvent windowResizedEvent;
@@ -49,6 +50,8 @@ namespace Engine {
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;
+		virtual void SetWidth(unsigned int width) = 0;
+		virtual void SetHeight(unsigned int height) = 0;
 
 		virtual void SetVsync(bool enabled) = 0;
 		virtual bool IsVsync() const = 0;

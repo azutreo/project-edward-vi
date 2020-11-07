@@ -1,6 +1,7 @@
 #pragma once
 
 #include "events/event.hpp"
+#include "events/input/event_input_mouse_scrolled.hpp"
 
 namespace Engine {
 
@@ -19,7 +20,7 @@ namespace Engine {
 		Event mouseButtonPressedEvent;
 		Event mouseButtonReleasedEvent;
 		Event mouseMovedEvent;
-		Event mouseScrolledEvent;
+		MouseScrolledEvent mouseScrolledEvent;
 
 	public:
 		Input(Window* window);
